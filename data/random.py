@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def generate_random(mean, std_dev, size=1000, **params):
+def random(difficulty, size=1000):
     """
     Generate a random time series with the given mean and standard deviation.
 
@@ -14,6 +14,8 @@ def generate_random(mean, std_dev, size=1000, **params):
     Returns:
     pd.DataFrame: A Pandas DataFrame containing the random time series.
     """
+    mean = 0
+    std_dev = difficulty / 100
     random_series = np.random.randn(size)
     scaled_series = random_series * std_dev + mean
-    return pd.DataFrame({"Value": scaled_series})
+    return pd.DataFrame({"values": scaled_series})

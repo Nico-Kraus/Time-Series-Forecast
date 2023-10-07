@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def sinusoidal(difficulty, size=1000):
+def sinusoidal_with_noise(difficulty, size=1000):
     """
     Create a DataFrame with sinusoidal values.
 
@@ -15,8 +15,10 @@ def sinusoidal(difficulty, size=1000):
     Returns:
     - DataFrame
     """
-    max_value, min_value, phase_offset, period = 1, 0, 0, difficulty
-    x = np.linspace(0, 2 * np.pi * (size / period), size) + phase_offset
-    y = 0.5 * (max_value - min_value) * np.sin(x) + 0.5 * (max_value + min_value)
+    x = np.linspace(0, 2 * 10 * np.pi, size)
+    y = 0.5 * np.sin(x) + 0.5
+
+    noise = np.random.randn(size) * (difficulty / 100)
+    y += noise
 
     return pd.DataFrame({"values": y}, index=range(size))
