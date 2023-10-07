@@ -1,8 +1,4 @@
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-from utils import get_params, scale, get_model_val_loss, get_sample_entropy
+from utils import get_params, get_model_val_loss, get_sample_entropy
 from data.data import Data
 from plotting.plot import plot_linear_regressions
 
@@ -11,7 +7,7 @@ trainer_params = get_params("lstm_params.yaml")
 
 data_params = {
     "size": 1000,
-    "category": "multi_sinusoidal",
+    "category": "random",
     "lookback": trainer_params["lookback"],
 }
 

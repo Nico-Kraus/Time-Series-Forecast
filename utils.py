@@ -1,5 +1,4 @@
 import yaml
-import math
 
 import pandas as pd
 import numpy as np
@@ -27,5 +26,5 @@ def get_model_val_loss(train_df, val_df, trainer_params):
 def get_sample_entropy(train_df, val_df, m, tau):
     X = pd.concat([train_df["values"], val_df["values"]]).to_numpy()
     Samp, Phi1, Phi2 = EH.SampEn(X, m=10, **({} if tau == 0 else {"tau": tau}))
-    mod_Sample = [0 if math.isinf(s) or math.isnan(s) else s for s in Samp]
+    mod_Sample = [0 if np.isinf(s) or np.isnan(s) else s for s in Samp]
     return sum(mod_Sample)
