@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def repeating(difficulty, size=1000, **params):
+def repeating(difficulty, size=1000):
     """
     Create a DataFrame with repeating values.
 

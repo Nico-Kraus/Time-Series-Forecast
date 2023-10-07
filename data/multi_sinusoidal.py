@@ -1,10 +1,14 @@
 import numpy as np
 import pandas as pd
 
-from data.sinusoidal import sinusoidal
+
+def sinusoidal(period, min, max, phase_offset, size):
+    x = np.linspace(0, 2 * np.pi * (size / period), size) + phase_offset
+    y = 0.5 * (max - min) * np.sin(x) + 0.5 * (max + min)
+    return pd.DataFrame({"values": y}, index=range(size))
 
 
-def multi_sinusoidal(difficulty, min_value=0, max_value=1, size=1000, **params):
+def multi_sinusoidal(difficulty, size=1000):
     """
     Create a DataFrame with sinusoidal values.
 
@@ -17,6 +21,8 @@ def multi_sinusoidal(difficulty, min_value=0, max_value=1, size=1000, **params):
     Returns:
     - DataFrame
     """
+    min_value = 0
+    max_value = 1
     multi_df = pd.DataFrame({"values": np.zeros(size)}, index=range(size))
     amplitude_range = max_value - min_value
 
