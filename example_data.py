@@ -1,7 +1,7 @@
 from data.data import Data
 from plotting.plot import plot_time_series
 
-category = "sinusoidal_with_noise"
+category = "piecewise_linear"
 size = 1000
 difficulty = 50
 std_dev = 1

@@ -1,9 +1,31 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 
-def piecewise_linear(difficulty, size=1000, **params):
+def piecewise_linear(difficulty, size=1000):
+    # Generate random breakpoints within the series, ensuring start and end points are included
+    breakpoints = [0, size]
+    breakpoints.extend(
+        np.random.choice(np.arange(1, size), difficulty - 1, replace=False)
+    )
+    breakpoints.sort()
+
+    # Initialize time series
+    time_series_data = np.zeros(size)
+
+    for i in range(difficulty):
+        start_idx = breakpoints[i]
+        end_idx = breakpoints[i + 1]
+        slope = np.random.uniform(-1, 1)
+        segment = slope * np.arange(end_idx - start_idx) + (
+            0 if i == 0 else time_series_data[start_idx - 1]
+        )
+        time_series_data[start_idx:end_idx] = segment
+
+    return pd.DataFrame({"values": time_series_data}, index=range(size))
+
+
+def uniform_piecewise_linear(difficulty, size=1000):
     # Initialize time series
     time_series_data = np.zeros(size)
 
@@ -22,11 +44,4 @@ def piecewise_linear(difficulty, size=1000, **params):
         )
         time_series_data[start_idx:end_idx] = segment
 
-    # Add noise
-    noise = np.random.normal(loc=0, scale=1, size=size)
-    time_series_data += noise
-
-    time_series = pd.Series(data=time_series_data)
-    time_series = time_series.to_frame(name="values")
-
-    return time_series
+    return pd.DataFrame({"values": time_series_data}, index=range(size))

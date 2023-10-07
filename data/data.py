@@ -5,7 +5,7 @@ from data.sinusoidal import sinusoidal
 from data.multi_sinusoidal import multi_sinusoidal
 from data.random import random
 from data.sinusoidal_with_noise import sinusoidal_with_noise
-from data.piecewise_linear import piecewise_linear
+from data.piecewise_linear import piecewise_linear, uniform_piecewise_linear
 
 _c = {
     "repeating": repeating,
@@ -14,6 +14,7 @@ _c = {
     "random": random,
     "sinusoidal_with_noise": sinusoidal_with_noise,
     "piecewise_linear": piecewise_linear,
+    "uniform_piecewise_linear": uniform_piecewise_linear,
 }
 
 

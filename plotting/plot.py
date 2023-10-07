@@ -1,16 +1,19 @@
+import warnings
+
+import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 from plotting import PATH
 from pathlib import Path
-import warnings
+
 from utils import scale
-import pandas as pd
 
 
 def plot_time_series(df, name):
     sns.set_style("darkgrid")
     sns.lineplot(data=df)
-    plt.savefig(Path(PATH, "out", f"{name}.png"))
+    plt.savefig(Path(PATH, "out/examples", f"{name}.png"))
 
 
 def plot_linear_regressions(results, name):
@@ -40,7 +43,7 @@ def plot_linear_regressions(results, name):
         ax.set_title("Regression Plots")
         ax.legend()
 
-        plt.savefig(Path(PATH, "out", f"{name}.png"))
+        plt.savefig(Path(PATH, "out/results", f"{name}.png"))
 
 
 def plot_two_graphs(results, name):
@@ -55,7 +58,7 @@ def plot_two_graphs(results, name):
     plt.xlabel("Index")
     plt.ylabel("Blue is Value, Orange is Loss")
 
-    plt.savefig(Path(PATH, "out", f"{name}.png"))
+    plt.savefig(Path(PATH, "out/results", f"{name}.png"))
 
 
 def plot_linear_regression(df, name):
@@ -67,4 +70,4 @@ def plot_linear_regression(df, name):
         sns.set_theme()
         g = sns.lmplot(data=df, x=x_name, y=y_name, height=5)
         g.set_axis_labels(x_name, y_name)
-        plt.savefig(Path(PATH, "out", f"{name}.png"))
+        plt.savefig(Path(PATH, "out/results", f"{name}.png"))
