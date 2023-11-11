@@ -1,10 +1,16 @@
 import yaml
+import os
 
 import pandas as pd
 import numpy as np
 import EntropyHub as EH
 
 from trainer.trainer import Trainer
+
+
+def create_dir(name):
+    if not os.path.exists(name):
+        os.makedirs(name)
 
 
 def scale(l):

@@ -9,10 +9,13 @@ from pathlib import Path
 
 from utils import scale
 
+from utils import create_dir
+
 
 def plot_time_series(df, name):
     sns.set_style("darkgrid")
     sns.lineplot(data=df)
+    create_dir(Path(PATH, "out/examples"))
     plt.savefig(Path(PATH, "out/examples", f"{name}.png"))
 
 
