@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "time-series-forecast"
+version = "0.0.1"
+description = "Analyse and predict time-series"
+authors = ["Nico Kraus"]
+readme = "README.md"
+packages = [{include = "time_series_forecast"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+numpy = "^1.25.2"
+pandas = "^2.0.3"
+matplotlib = "^3.7.2"
+seaborn = "^0.12.2"
+tqdm = "^4.66.1"
+scipy = "^1.11.1"
+entropyhub = "^0.2"
+pyyaml = "^6.0.1"
+scikit-learn = "^1.3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
