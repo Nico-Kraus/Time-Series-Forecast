@@ -7,7 +7,7 @@ trainer_params = get_params("lstm_params.yaml")
 
 data_params = {
     "size": 1000,
-    "category": "random",
+    "category": "piecewise_linear",
     "lookback": trainer_params["lookback"],
 }
 
@@ -20,8 +20,8 @@ for difficulty in range(1, max_difficulty + 1):
     data_params["difficulty"] = difficulty
     losses, entropies = [], []
     for i in range(repeats + 1):
-        train_df, val_df = Data(**data_params).get()
-        entropies.append(get_sample_entropy(train_df, val_df, 10, 0))
+        train_df, val_df = Data(**data_params).get(split=(0.8, 0.2))
+        entropies.append(get_sample_entropy(train_df, val_df, m=10, tau=0))
         losses.append(get_model_val_loss(train_df, val_df, trainer_params))
 
     results[difficulty] = {

@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def autoregressive_time_series(difficulty, size=1000):
+def autoregressive(difficulty, size=1000):
     # Define coefficients for autoregressive model
     coefficients = np.random.uniform(-1, 1, difficulty)
 
