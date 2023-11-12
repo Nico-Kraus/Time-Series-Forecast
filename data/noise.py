@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def noise(size=1000, mean=0, std_dev=1):
+def noise(rng, size=1000, mean=0, std_dev=1):
     """
     Generate a random time series with the given mean and standard deviation.
 
@@ -14,5 +14,5 @@ def noise(size=1000, mean=0, std_dev=1):
     Returns:
     - numpy time series
     """
-    random_series = np.random.randn(size)
+    random_series = rng.random(size)
     return random_series * std_dev + mean

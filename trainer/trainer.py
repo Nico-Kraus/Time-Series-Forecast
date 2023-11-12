@@ -68,7 +68,7 @@ class Trainer:
     def val(self, x_val, info=True):
         x_val = torch.tensor(x_val.values, dtype=torch.float)
         dataset = SlidingWindowDataset(x_val, self.__lookback + 1)
-        dataloader = DataLoader(dataset, batch_size=self.__batch_size, shuffle=False)
+        dataloader = DataLoader(dataset, batch_size=len(dataset), shuffle=False)
 
         self.__model.eval()
 
@@ -83,4 +83,4 @@ class Trainer:
 
         self.__model.train()
 
-        return avg_loss
+        return avg_loss, pred

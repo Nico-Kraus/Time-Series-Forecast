@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 
-def uniform_piecewise_linear(size=1000, num_seg=5, min_value=0, max_value=1):
+def uniform_piecewise_linear(rng, size=1000, num_seg=5, min_value=0, max_value=1):
     """
     Create a DataFrame with a piecewise linear function.
     The size of the segments is random
@@ -25,12 +25,10 @@ def uniform_piecewise_linear(size=1000, num_seg=5, min_value=0, max_value=1):
     for i in range(num_seg):
         start_idx = breakpoints[i]
         end_idx = breakpoints[i + 1]
-        slope = np.random.uniform(-1, 1)
+        slope = rng.uniform(-1, 1)
         segment = slope * np.arange(end_idx - start_idx) + (
             0 if i == 0 else ts[start_idx - 1]
         )
         ts[start_idx:end_idx] = segment
-    return (
-        MinMaxScaler().fit_transform(ts.reshape(-1, 1)) * (max_value - min_value)
-        + min_value
-    )
+    ts = MinMaxScaler().fit_transform(ts.reshape(-1, 1))
+    return (ts * (max_value - min_value) + min_value).flatten()

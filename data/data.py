@@ -20,20 +20,21 @@ _c = {
 
 
 class Data:
-    def __init__(self, size, config, lookback):
+    def __init__(self, size, config, lookback, seed):
         self.lookback = lookback
         self.size = size
+        rng = np.random.default_rng(seed)
         if lookback != None:
             size = size + lookback + 1
         self.data = pd.DataFrame({"values": np.zeros(size)}, index=range(size))
         for category, params in config.items():
-            self.data["values"] += _c[category](**params)
-        # self.data["values"] = MinMaxScaler().fit_transform(self.data[["values"]])
+            self.data["values"] += _c[category](size=size, rng=rng, **params)
+        self.data["values"] = MinMaxScaler().fit_transform(self.data[["values"]])
 
     def get(self, split=(0.8, 0.2)):
         if split:
-            train = self.data.iloc[: int(self.size * split[0] + self.lookback)]
-            val = self.data.iloc[-int(self.size * split[1] + self.lookback) :]
+            train = self.data.iloc[: int(self.size * split[0] + self.lookback + 1)]
+            val = self.data.iloc[-int(self.size * split[1] + self.lookback + 1) :]
             return train, val
         else:
             return self.data
