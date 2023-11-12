@@ -33,24 +33,16 @@ class Data:
 
     def get(self, split=(0.8, 0.1, 0.1)):
         if split:
-            # train = self.data.iloc[: int(self.size * split[0] + self.lookback + 1)]
-            # val = self.data.iloc[-int(self.size * split[1] + self.lookback + 1) :]
-            # test = self.data.iloc[-int(self.size * split[2] + self.lookback + 1) :]
-
-            # Training set
             train_end_idx = int(self.size * split[0]) + self.lookback + 1
             train = self.data.iloc[:train_end_idx]
 
-            # Validation set
-            val_start_idx = (
-                train_end_idx - self.lookback - 1
-            )  # Start with lookback data
-            val_end_idx = val_start_idx + int(self.size * split[1]) + self.lookback
+            val_start_idx = train_end_idx - self.lookback - 1
+            val_end_idx = val_start_idx + int(self.size * split[1]) + self.lookback + 1
             val = self.data.iloc[val_start_idx:val_end_idx]
 
-            # Test set
-            test_start_idx = val_end_idx - self.lookback - 1  # Start with lookback data
+            test_start_idx = val_end_idx - self.lookback - 1
             test = self.data.iloc[test_start_idx:]
+
             return train, val, test
         else:
             return self.data

@@ -20,7 +20,6 @@ trainer.train(train_df)
 val_loss, val_pred = trainer.val(val_df)
 test_loss, test_pred = trainer.val(test_df)
 
-
 train_df = train_df[lookback + 1 :].rename(columns={train_df.columns[0]: "train"})
 val_df = val_df[lookback + 1 :].assign(pred=val_pred)
 val_df = val_df.set_axis(["val", "val_pred"], axis=1)
