@@ -1,8 +1,7 @@
 import numpy as np
-import pandas as pd
 
 
-def repeating(size=1000, period=10, min_value=0, max_value=1):
+def repeating(rng, size=1000, period=10, min_value=0, max_value=1):
     """
     Create a DataFrame with repeating values.
 
@@ -15,5 +14,5 @@ def repeating(size=1000, period=10, min_value=0, max_value=1):
     Returns:
     - numpy time series
     """
-    sequence = np.random.uniform(min_value, max_value, period)
+    sequence = rng.uniform(min_value, max_value, period)
     return np.tile(sequence, size // len(sequence) + 1)[:size]

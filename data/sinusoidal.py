@@ -1,8 +1,7 @@
 import numpy as np
-import pandas as pd
 
 
-def sinusoidal(size=1000, period=100, phase_offset=0, min_value=0, max_value=1):
+def sinusoidal(rng, size=1000, period=100, phase_offset=0, min_value=0, max_value=1):
     """
     Create a DataFrame with sinusoidal values.
 
