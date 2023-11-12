@@ -1,7 +1,3 @@
-import numpy as np
-import pandas as pd
-
-
 def noise(rng, size=1000, mean=0, std_dev=1):
     """
     Generate a random time series with the given mean and standard deviation.
