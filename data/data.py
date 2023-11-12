@@ -27,7 +27,7 @@ class Data:
         if lookback != None:
             size = size + lookback + 1
         self.data = pd.DataFrame({"values": np.zeros(size)}, index=range(size))
-        for category, params in config.items():
+        for category, params in sorted(config.items()):
             self.data["values"] += _c[category](size=size, rng=rng, **params)
         self.data["values"] = MinMaxScaler().fit_transform(self.data[["values"]])
 

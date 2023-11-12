@@ -1,14 +1,10 @@
 import numpy as np
-import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
+from data.sinusoidal import sinusoidal
 
 
-def sinusoidal(period, min, max, phase_offset, size):
-    x = np.linspace(0, 2 * np.pi * (size / period), size) + phase_offset
-    y = 0.5 * (max - min) * np.sin(x) + 0.5 * (max + min)
-    return pd.DataFrame({"values": y}, index=range(size))
-
-
-def multi_sinusoidal(difficulty, size=1000):
+def multi_sinusoidal(rng, size=1000, num_sin=5, min_value=0, max_value=1):
     """
     Create a DataFrame with sinusoidal values.
 
@@ -21,32 +17,31 @@ def multi_sinusoidal(difficulty, size=1000):
     Returns:
     - DataFrame
     """
-    min_value = 0
-    max_value = 1
-    multi_df = pd.DataFrame({"values": np.zeros(size)}, index=range(size))
+    ts = np.zeros(size)
     amplitude_range = max_value - min_value
 
-    for _ in range(difficulty):
-        random_period = np.random.uniform(min(10, size / 10), size / 2)
-        random_amplitude = np.random.uniform(0.1 * amplitude_range, amplitude_range)
+    for _ in range(num_sin):
+        random_period = rng.uniform(min(10, size / 10), size / 2)
+        random_amplitude = rng.uniform(0.1 * amplitude_range, amplitude_range)
 
         puffer = (amplitude_range - random_amplitude) / 2
-        random_y_offset = np.random.uniform(-puffer, puffer)
+        random_y_offset = rng.uniform(-puffer, puffer)
         random_min = (
             min_value + random_y_offset + (amplitude_range - random_amplitude) / 2
         )
         random_max = random_min + random_amplitude
 
-        rdm_phase_offset = np.random.uniform(0, 2 * np.pi)
+        rdm_phase_offset = rng.uniform(0, 2 * np.pi)
         single_df = sinusoidal(
-            random_period, random_min, random_max, rdm_phase_offset, size
+            rng=rng,
+            size=size,
+            period=random_period,
+            phase_offset=rdm_phase_offset,
+            min_value=random_min,
+            max_value=random_max,
         )
-        multi_df["values"] += single_df["values"]
+        ts += single_df
 
     # Normalize the final sum to ensure it's within the specified min_value and max_value
-    multi_df["values"] = (max_value - min_value) * (
-        (multi_df["values"] - multi_df["values"].min())
-        / (multi_df["values"].max() - multi_df["values"].min())
-    ) + min_value
-
-    return multi_df
+    ts = MinMaxScaler().fit_transform(ts.reshape(-1, 1))
+    return (ts * (max_value - min_value) + min_value).flatten()
