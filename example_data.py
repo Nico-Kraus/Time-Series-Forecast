@@ -1,7 +1,7 @@
 from data.data import Data
 from plotting.plot import plot_time_series
 
-size = 200
+size = 1000
 seed = 42
 config = {"multi_sinusoidal": {"num_sin": 2}, "noise": {"std_dev": 0.1}}
 

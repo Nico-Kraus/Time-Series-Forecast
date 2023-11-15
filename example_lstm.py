@@ -7,7 +7,7 @@ trainer_params = get_params("lstm_params.yaml")
 lookback = trainer_params["lookback"]
 
 size = 1000
-seed = 41
+seed = 44
 config = {"multi_sinusoidal": {"num_sin": 3}}
 
 data = Data(size=size, seed=seed, config=config, lookback=lookback)
