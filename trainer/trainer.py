@@ -90,7 +90,8 @@ class Trainer:
             else:
                 patience_counter += 1
                 if patience_counter >= self.__patience:
-                    print(f"Early stopping triggered after {epoch + 1} epochs")
+                    if info:
+                        print(f"Early stopping triggered after {epoch + 1} epochs")
                     break
 
             if info:
@@ -106,12 +107,14 @@ class Trainer:
     def test(self, x_test, info=True):
         x_test = torch.tensor(x_test.values, dtype=torch.float)
         test_dataset = SlidingWindowDataset(x_test, self.__lookback + 1)
-        test_dl = DataLoader(test_dataset, batch_size=len(test_dataset), shuffle=False)
+        test_loader = DataLoader(
+            test_dataset, batch_size=len(test_dataset), shuffle=False
+        )
 
         self.__model.eval()
 
         with torch.no_grad():
-            for batch_idx, (x_true, y_true) in enumerate(test_dl):
+            for batch_idx, (x_true, y_true) in enumerate(test_loader):
                 pred = self.__model(x_true)
                 loss = self.__loss(pred, y_true.view(y_true.shape[0], 1))
 
