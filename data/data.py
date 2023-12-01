@@ -9,6 +9,10 @@ from data.noise import noise
 from data.piecewise_linear import piecewise_linear
 from data.uniform_piecewise_linear import uniform_piecewise_linear
 from data.trend import trend
+from data.linear import linear
+from data.exponential import exponential
+from data.polynomial import polynomial
+from data.logistic import logistic
 
 _c = {
     "repeating": repeating,
@@ -18,6 +22,10 @@ _c = {
     "piecewise_linear": piecewise_linear,
     "uniform_piecewise_linear": uniform_piecewise_linear,
     "trend": trend,
+    "linear": linear,
+    "exponential": exponential,
+    "polynomial": polynomial,
+    "logistic": logistic,
 }
 
 
