@@ -1,22 +1,20 @@
 from data.data import Data
-from trainer.trainer import Trainer
+from trainer.predictor import Predictor
 from plotting.plot import plot_pred
 from utils import get_params, keys_to_string
 
-trainer_params = get_params("custom_lstm")
-# trainer_params = get_params("very_small_lstm.yaml")
-lookback = trainer_params["lookback"]
+lookback = 10
+method = "last_value"
+loss = "L1"
 
 size = 1000
-seed = None
+seed = 42
 config = {"piecewise_linear": {"num_seg": 1}}
-# config = {"sinusoidal": {"period": 100}}
 
 data = Data(size=size, seed=seed, config=config, lookback=lookback)
 train_df, val_df, test_df = data.get(split=(0.8, 0.1, 0.1))
 
-trainer = Trainer(**trainer_params)
-train_loss, val_loss, val_pred = trainer.train(train_df, val_df)
+trainer = Predictor(lookback=lookback, method=method, loss=loss)
 val_loss, val_pred = trainer.test(val_df)
 test_loss, test_pred = trainer.test(test_df)
 
@@ -27,5 +25,5 @@ plot_pred(
     test_df=test_df,
     test_pred=test_pred,
     lookback=lookback,
-    name=f"plot_lstm_{keys_to_string(config.keys())}",
+    name=f"plot_pred_{keys_to_string(config.keys())}",
 )
