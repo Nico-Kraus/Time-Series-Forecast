@@ -1,6 +1,6 @@
 batch_size: 64
 device: cpu
-epochs: 100
+epochs: 500
 hidden_dim: 16
 input_dim: 1
 lookback: 10

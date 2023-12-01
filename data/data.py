@@ -8,6 +8,7 @@ from data.multi_sinusoidal import multi_sinusoidal
 from data.noise import noise
 from data.piecewise_linear import piecewise_linear
 from data.uniform_piecewise_linear import uniform_piecewise_linear
+from data.trend import trend
 
 _c = {
     "repeating": repeating,
@@ -16,16 +17,17 @@ _c = {
     "noise": noise,
     "piecewise_linear": piecewise_linear,
     "uniform_piecewise_linear": uniform_piecewise_linear,
+    "trend": trend,
 }
 
 
 class Data:
-    def __init__(self, size, config, lookback, seed):
+    def __init__(self, size, config, seed, lookback=0):
         self.lookback = lookback
         self.size = size
         rng = np.random.default_rng(seed)
         if lookback != None:
-            size = size + lookback + 1
+            size = size + lookback
         self.data = pd.DataFrame({"values": np.zeros(size)}, index=range(size))
         for category, params in sorted(config.items()):
             self.data["values"] += _c[category](size=size, rng=rng, **params)
@@ -33,14 +35,14 @@ class Data:
 
     def get(self, split=(0.8, 0.1, 0.1)):
         if split:
-            train_end_idx = int(self.size * split[0]) + self.lookback + 1
+            train_end_idx = int(self.size * split[0]) + self.lookback
             train = self.data.iloc[:train_end_idx]
 
-            val_start_idx = train_end_idx - self.lookback - 1
-            val_end_idx = val_start_idx + int(self.size * split[1]) + self.lookback + 1
+            val_start_idx = train_end_idx - self.lookback
+            val_end_idx = val_start_idx + int(self.size * split[1]) + self.lookback
             val = self.data.iloc[val_start_idx:val_end_idx]
 
-            test_start_idx = val_end_idx - self.lookback - 1
+            test_start_idx = val_end_idx - self.lookback
             test = self.data.iloc[test_start_idx:]
 
             return train, val, test

@@ -1,5 +1,6 @@
 import os
 import torch
+import uuid
 from torch.utils.data import DataLoader
 import torch.optim as optim
 
@@ -21,6 +22,7 @@ class Trainer:
         optimizer: str = "Adam",
         lookback: int = 10,
         patience: int = 10,
+        init_method: str = "normal",
         device: str = "cpu",
     ):
         self.__model = _model[model](
@@ -28,6 +30,7 @@ class Trainer:
             hidden_dim=hidden_dim,
             output_dim=output_dim,
             n_layers=n_layers,
+            init_method=init_method,
         )
         self.__loss = _loss[loss]()
         self.__optimizer = _optimizer[optimizer](self.__model.parameters(), lr=lr)
@@ -40,7 +43,7 @@ class Trainer:
 
     def train(self, x_train, x_val, info=True):
         best_val_loss = float("inf")
-        best_model_path = "best_model.pth"
+        best_model_path = f"models/tmp_best_model_{uuid.uuid4()}.pth"
         patience_counter = 0
 
         train_losses = []
@@ -96,7 +99,7 @@ class Trainer:
 
             if info:
                 print(
-                    f"epoch: {epoch+1}\t train loss: {avg_train_loss:.3f}\t val loss: {avg_val_loss:.3f}"
+                    f"epoch: {epoch+1}\t train loss: {avg_train_loss:.5f}\t val loss: {avg_val_loss:.5f}"
                 )
 
         self.__model.load_state_dict(torch.load(best_model_path))
@@ -120,7 +123,7 @@ class Trainer:
 
         avg_loss = loss.mean().item()
         if info:
-            print(f"test loss = {avg_loss}")
+            print(f"test loss = {avg_loss:.5f}")
 
         self.__model.train()
 
