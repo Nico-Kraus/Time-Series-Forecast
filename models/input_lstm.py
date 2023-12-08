@@ -136,15 +136,15 @@ class StackedLSTM(nn.Module):
         return output, output_states
 
 
-class CustomLSTM(nn.Module):
+class InputLSTM(nn.Module):
     def __init__(self, input_dim, hidden_dim, n_layers, output_dim, init_method="kaiming"):
-        super(CustomLSTM, self).__init__()
+        super(InputLSTM, self).__init__()
 
         self.hidden_dim = hidden_dim
         self.n_layers = n_layers
 
         self.lstm = StackedLSTM(input_dim, hidden_dim, n_layers, init_method, batch_first=True)
-        self.fc = nn.Linear(hidden_dim, output_dim)
+        self.fc = nn.Linear(hidden_dim+1, output_dim)
 
     def forward(self, x):
         # Initialize hidden and cell states
@@ -157,8 +157,10 @@ class CustomLSTM(nn.Module):
 
         # Use the last hidden state of the last layer
         last_hidden_state = states[-1][0]
+        last_input = x[:,-1,:]
+        combined = torch.cat((last_hidden_state, last_input),1)
 
         # Fully connected layer
-        out = self.fc(last_hidden_state)
+        out = self.fc(combined)
 
         return out

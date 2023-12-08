@@ -6,6 +6,7 @@ from data.repeating import repeating
 from data.sinusoidal import sinusoidal
 from data.multi_sinusoidal import multi_sinusoidal
 from data.noise import noise
+from data.piecewise_constant import piecewise_constant
 from data.piecewise_linear import piecewise_linear
 from data.uniform_piecewise_linear import uniform_piecewise_linear
 from data.trend import trend
@@ -19,6 +20,7 @@ _c = {
     "sinusoidal": sinusoidal,
     "multi_sinusoidal": multi_sinusoidal,
     "noise": noise,
+    "piecewise_constant": piecewise_constant,
     "piecewise_linear": piecewise_linear,
     "uniform_piecewise_linear": uniform_piecewise_linear,
     "trend": trend,

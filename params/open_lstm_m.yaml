@@ -3,10 +3,10 @@ device: cpu
 epochs: 500
 hidden_dim: 256
 input_dim: 1
-lookback: 10
+lookback: 1
 loss: L1
 lr: 0.001
-model: customlstm
+model: openlstm
 n_layers: 1
 optimizer: Adam
 patience: 50

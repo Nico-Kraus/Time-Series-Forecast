@@ -58,22 +58,21 @@ class CustomLSTMCell(nn.Module):
         h_t, c_t = (torch.zeros(x.size(0), self.hidden_size).to(x.device),
                     torch.zeros(x.size(0), self.hidden_size).to(x.device)) if init_states is None else init_states
 
-        # Extracting gate-specific weights from combined weight matrices
-        weight_if, weight_ii, weight_io, weight_ig = self.weight_ih.chunk(4, 0)
-        weight_cf, weight_ci, weight_co, weight_cg = self.weight_hh.chunk(4, 0)
-        bias_if, bias_ii, bias_io, bias_ig = self.bias_ih.chunk(4, 0)
-        bias_cf, bias_ci, bias_co, bias_cg = self.bias_hh.chunk(4, 0)
+        # Compute all the gates for the entire batch
+        gates = (torch.mm(x, self.weight_ih.t()) + self.bias_ih + torch.mm(h_t, self.weight_hh.t()) + self.bias_hh)
+        f_t, i_t, o_t, g_t  = gates.chunk(4, 1)
 
-        f_t = torch.sigmoid(torch.mm(x, weight_if.t()) + bias_if + torch.mm(c_t, weight_cf.t()) + bias_cf)
-        i_t = torch.sigmoid(torch.mm(x, weight_ii.t()) + bias_ii + torch.mm(c_t, weight_ci.t()) + bias_ci)
-        o_t = torch.sigmoid(torch.mm(x, weight_io.t()) + bias_io + torch.mm(c_t, weight_co.t()) + bias_co)
-        g_t = torch.relu(torch.mm(x, weight_ig.t()) + bias_ig)
+        # Apply the sigmoid and tanh functions
+        f_t = torch.sigmoid(f_t)
+        i_t = torch.sigmoid(i_t)
+        o_t = torch.sigmoid(o_t)
+        g_t = torch.tanh(g_t)
 
+        # Compute the new cell state and hidden state for the entire batch
         c_t = f_t * c_t + i_t * g_t
         h_t = o_t * c_t
 
         return h_t, c_t
-
     
 class CustomLSTMLayer(nn.Module):
     def __init__(self, input_size, hidden_size, init_method='kaiming', batch_first=False):
@@ -137,9 +136,9 @@ class StackedLSTM(nn.Module):
         return output, output_states
 
 
-class PeepholeLSTM(nn.Module):
+class OpenLSTM(nn.Module):
     def __init__(self, input_dim, hidden_dim, n_layers, output_dim, init_method="kaiming"):
-        super(PeepholeLSTM, self).__init__()
+        super(OpenLSTM, self).__init__()
 
         self.hidden_dim = hidden_dim
         self.n_layers = n_layers

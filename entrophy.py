@@ -6,11 +6,11 @@ from utils import (
     get_sample_entropy,
     create_name,
     dict_to_string,
+    df_to_csv,
 )
 from data.data import Data
-from plotting.plot import double_plot_linear_regressions
 
-data_lookback = 10
+data_lookback = 1
 loss_func = "L1"
 
 data_params = {
@@ -25,21 +25,22 @@ increasing_param = "num_seg"
 factor = 1
 repeats = 10
 
-models = ["lstm", "custom_lstm"]
+model_names = [
+    "open_lstm_m",
+    "input_lstm_m",
+]
 predictors = ["last_value_loss"]
+metrics = ["entropy"]
 
 model_params = {}
-for model in models:
+for model in model_names:
     model_params[model] = get_params(model)
     model_params[model]["loss"] = loss_func
-    model_params[model]["lookback"] = data_lookback    
-
-loss_categories = models + predictors
-metric_categories = ["entropy"]
+    model_params[model]["lookback"] = data_lookback
 
 
 data_params["lookback"] = data_lookback
-columns = ["type", "seed", "difficulty"] + loss_categories + metric_categories
+columns = ["type", "seed", "difficulty"] + model_names + predictors + metrics
 data_type = dict_to_string(data_params)
 results = pd.DataFrame(columns=columns)
 for difficulty in range(1, max_difficulty + 1):
@@ -55,22 +56,19 @@ for difficulty in range(1, max_difficulty + 1):
             model_results[name] = get_model_test_loss(train_df, val_df, test_df, params)
         last_value_loss = get_prediction_loss(test_df, method="last_value", loss=loss_func, lookback=data_params["lookback"])
 
-        row = pd.DataFrame(
-            [
-                {
-                    "type": data_type,
-                    "seed": data_params["seed"],
-                    "difficulty": difficulty,
-                    "entropy": entropy,
-                    "lstm": model_results["lstm"],
-                    "custom_lstm": model_results["custom_lstm"],
-                    "last_value_loss": last_value_loss,
-                }
-            ],
-            columns=columns,
-        )
+        row_data = {
+            "type": data_type,
+            "seed": data_params["seed"],
+            "difficulty": difficulty,
+            "entropy": entropy,
+            "last_value_loss": last_value_loss,
+        }
+        for model_name in model_names:
+            row_data[model_name] = model_results.get(model_name, None)
+
+        row = pd.DataFrame([row_data], columns=columns)
         results = pd.concat([results, row], ignore_index=True)
 
 print()
 name = create_name("entrophy", data_params, max_difficulty)
-double_plot_linear_regressions(results, name, loss_categories, metric_categories)
+df_to_csv(results, f"{name}.csv")

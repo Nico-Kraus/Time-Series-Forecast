@@ -8,8 +8,8 @@ method = "last_value"
 loss = "L1"
 
 size = 1000
-seed = 42
-config = {"piecewise_linear": {"num_seg": 1}}
+seed = 39
+config = {"piecewise_constant": {"num_seg": 5}}
 
 data = Data(size=size, seed=seed, config=config, lookback=lookback)
 train_df, val_df, test_df = data.get(split=(0.8, 0.1, 0.1))

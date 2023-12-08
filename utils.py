@@ -8,6 +8,10 @@ import EntropyHub as EH
 from trainer.trainer import Trainer
 from trainer.predictor import Predictor
 
+def df_to_csv(df,name):
+    create_dir("results")
+    df.to_csv(f"results/{name}")
+
 
 def create_dir(name):
     if not os.path.exists(name):
