@@ -1,6 +1,6 @@
-batch_size: 8
+batch_size: 16
 device: cpu
-epochs: 500
+epochs: 200
 hidden_dim: 64
 input_dim: 1
 lookback: 10
@@ -9,5 +9,5 @@ lr: 0.01
 model: lstm
 n_layers: 2
 optimizer: Adam
-patience: 50
+patience: 20
 output_dim: 1
