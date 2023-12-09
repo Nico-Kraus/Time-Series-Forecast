@@ -3,7 +3,7 @@ device: cpu
 epochs: 500
 hidden_dim: 256
 input_dim: 1
-lookback: 1
+lookback: 10
 loss: L1
 lr: 0.001
 model: inputlstm

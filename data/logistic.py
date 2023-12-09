@@ -1,6 +1,6 @@
 import numpy as np
 
-def logistic(max_capacity, growth, midpoint, size = 1000, **params):
+def logistic(max_capacity = 1, growth = 1, midpoint = 500, size = 1000, **params):
     """
     Generate a logistic time series.
 

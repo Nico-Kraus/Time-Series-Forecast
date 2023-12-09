@@ -1,0 +1,348 @@
+size: 1000
+seed: 42
+data_lookback: 10
+loss_func: "L1"
+configs:
+  repeating_n5:
+    repeating:
+      period: 5
+  repeating_n20:
+    repeating:
+      period: 20
+  repeating_n100:
+    repeating:
+      period: 100
+  repeating_n50_with_noise:
+    repeating:
+      period: 50
+    noise:
+      std_dev: 0.1
+  repeating_n10_with_noise:
+    repeating:
+      period: 10
+    noise:
+      std_dev: 0.5
+  linear:
+    linear:
+      slope: 1
+      intercept: 0
+  rev_linear:
+    linear:
+      slope: -1
+      intercept: 0
+  linear_with_noise0_001:
+    linear:
+      slope: 0.001
+      intercept: 0
+    noise:
+      std_dev: 0.001
+  linear_with_noise0_01:
+    linear:
+      slope: 0.001
+      intercept: 0
+    noise:
+      std_dev: 0.01
+  linear_with_noise0_1:
+    linear:
+      slope: 0.001
+      intercept: 0
+    noise:
+      std_dev: 0.1
+  quadratic:
+    polynomial:
+      coefficients: [0,-1000,1]
+  quadratic_with_noise:
+    polynomial:
+      coefficients: [0,-1000,1]   
+    noise:
+      std_dev: 10000
+  cubic:
+    polynomial:
+      coefficients: [0,525000,-1500,1]
+  cubic_with_noise:
+    polynomial:
+      coefficients: [0,525000,-1500,1]   
+    noise:
+      std_dev: 5000000
+  exponential:
+    exponential:
+      factor: 1
+      growth: 1
+  rev_exponential:
+    exponential:
+      factor: 1
+      growth: -0.3
+  exponential_with_noise:
+    exponential:
+      factor: 1
+      growth: 0.3
+    noise:
+      std_dev: 0.5
+  rev_exponential_with_noise:
+    exponential:
+      factor: 1
+      growth: -0.3
+    noise:
+      std_dev: 0.05
+  logistic:
+    logistic:
+      max_capacity: 1
+      growth: 1
+      midpoint: 500
+  logistic_late:
+    logistic:
+      max_capacity: 1
+      growth: 2
+      midpoint: 850
+  logistic_early:
+    logistic:
+      max_capacity: 1
+      growth: 2
+      midpoint: 150
+  logistic_noise:
+    logistic:
+      max_capacity: 1
+      growth: 1
+      midpoint: 500
+    noise:
+      std_dev: 0.05
+  sinusoidal_1:
+    sinusoidal:
+      period: 333
+      phase_offset: 0
+  sinusoidal_2:
+    sinusoidal:
+      period: 67
+      phase_offset: 0
+  sinusoidal_3:
+    sinusoidal:
+      period: 970
+      phase_offset: 0
+  sinusoidal_noise:
+    sinusoidal:
+      period: 67
+      phase_offset: 0
+    noise:
+      std_dev: 0.1
+  multi_sinusoidal_n2:
+    multi_sinusoidal:
+      num_sin: 2
+  multi_sinusoidal_n3:
+    seed: 38
+    multi_sinusoidal:
+      num_sin: 3
+  multi_sinusoidal_n4:
+    seed: 41
+    multi_sinusoidal:
+      num_sin: 4
+  multi_sinusoidal_n20:
+    multi_sinusoidal:
+      num_sin: 20
+  multi_sinusoidal_n100:
+    seed: 40
+    multi_sinusoidal:
+      num_sin: 100 
+  multi_sinusoidal_n1000:
+    seed: 37
+    multi_sinusoidal:
+      num_sin: 1000
+  multi_sinusoidal_n3_noise:
+    seed: 38
+    multi_sinusoidal:
+      num_sin: 3
+    noise:
+      std_dev: 0.2
+  multi_sinusoidal_n20_noise:
+    multi_sinusoidal:
+      num_sin: 20
+    noise:
+      std_dev: 0.1
+  piecewise_constant_n5:
+    seed: 39
+    piecewise_constant:
+      num_seg: 5
+  piecewise_constant_n10:
+    seed: 39
+    piecewise_constant:
+      num_seg: 10
+  piecewise_constant_n100:
+    seed: 39
+    piecewise_constant:
+      num_seg: 100
+  piecewise_constant_n15_noise:
+    seed: 41
+    piecewise_constant:
+      num_seg: 15
+    noise:
+      std_dev: 0.1
+  piecewise_linear_n5:
+    piecewise_linear:
+      num_seg: 5
+  piecewise_linear_n10:
+    piecewise_linear:
+      num_seg: 10
+  piecewise_linear_n100:
+    piecewise_linear:
+      num_seg: 100
+  piecewise_linear_n15_noise:
+    seed: 37
+    piecewise_linear:
+      num_seg: 15
+    noise:
+      std_dev: 0.1
+  uniform_piecewise_linear:
+    seed: 33
+    uniform_piecewise_linear:
+      num_seg: 10
+  trend_1:
+    trend:
+      max_return: 0.1
+      trend: 0.2
+  trend_2:
+    trend:
+      max_return: 0.01
+      trend: 0.4
+  trend_3:
+    seed: 39
+    trend:
+      max_return: 0.2
+      trend: 0.001
+  mixed_1:
+    seed: 20
+    logistic:
+      max_capacity: 2
+      growth: 1
+      midpoint: 500
+    multi_sinusoidal:
+      num_sin: 3
+      min_value: 0
+      max_value: 0.4
+    noise:
+      std_dev: 0.02
+  mixed_2:
+    logistic:
+      max_capacity: 2
+      growth: 1
+      midpoint: 500
+    multi_sinusoidal:
+      num_sin: 2
+      min_value: 0
+      max_value: 0.2
+    trend:
+      max_return: 0.1
+      trend: 0.1
+      min_value: 0
+      max_value: 0.6
+    noise:
+      std_dev: 0.01
+  mixed_3:
+    seed: 21
+    logistic:
+      max_capacity: 2
+      growth: -0.5
+      midpoint: 500
+    multi_sinusoidal:
+      num_sin: 4
+      min_value: 0
+      max_value: 0.3
+    trend:
+      max_return: 0.01
+      trend: 0.3
+      min_value: 0
+      max_value: 0.6
+    noise:
+      std_dev: 0.002
+  mixed_4:
+    seed: 21
+    exponential:
+      factor: 1
+      growth: 0.2
+    sinusoidal:
+      period: 88
+      min_value: 0
+      max_value: 0.3
+    trend:
+      max_return: 0.01
+      trend: 0.3
+      min_value: 0
+      max_value: 0.6
+    noise:
+      std_dev: 0.002
+  mixed_5:
+    seed: 19
+    exponential:
+      factor: 1
+      growth: 0.1
+    sinusoidal:
+      period: 15
+      min_value: 0
+      max_value: 0.2
+    trend:
+      max_return: 0.01
+      trend: 0.3
+      min_value: 0
+      max_value: 0.6
+    noise:
+      std_dev: 0.005
+  mixed_6:
+    seed: 19
+    sinusoidal:
+      period: 188
+      min_value: 0
+      max_value: 4
+    repeating:
+      period: 11
+    noise:
+      std_dev: 0.008
+  mixed_7:
+    seed: 19
+    linear:
+      slope: 0.009
+    repeating:
+      period: 14
+    noise:
+      std_dev: 0.011
+  mixed_8:
+    seed: 20
+    logistic:
+      max_capacity: 11
+      growth: 0.9
+      midpoint: 600
+    repeating:
+      period: 9
+    noise:
+      std_dev: 0.005
+  mixed_9:
+    seed: 19
+    exponential:
+      factor: 1
+      growth: 0.2
+    sinusoidal:
+      period: 300
+      min_value: 0
+      max_value: 4
+    trend:
+      max_return: 0.01
+      trend: 0.3
+      min_value: 0
+      max_value: 0.6
+    repeating:
+      period: 4
+    noise:
+      std_dev: 0.01
+  gait_1:
+    uci_gait:
+      start: 0
+  gait_2:
+    uci_gait:
+      start: 10200
+  gait_3:
+    uci_gait:
+      start: 30100
+  gait_4:
+    uci_gait:
+      start: 101982
+  gait_5:
+    uci_gait:
+      start: 169523
+
