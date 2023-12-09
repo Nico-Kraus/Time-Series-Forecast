@@ -1,47 +1,36 @@
 import numpy as np
-import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 
 
-def piecewise_linear(difficulty, size=1000):
+def piecewise_linear(rng, size=1000, num_seg=5,max_slope = 1, min_value=0, max_value=1):
+    """
+    Create a DataFrame with a piecewise linear function.
+    The size of the segments is random
+
+    Parameters:
+    - size: Size of the dataframe
+    - num_seg: number of segments
+    - min_value: Minimum value
+    - max_value: Maximum value
+
+    Returns:
+    - numpy time series
+
+    """
     # Generate random breakpoints within the series, ensuring start and end points are included
     breakpoints = [0, size]
-    breakpoints.extend(
-        np.random.choice(np.arange(1, size), difficulty - 1, replace=False)
-    )
+    breakpoints.extend(rng.choice(np.arange(1, size), num_seg - 1, replace=False))
     breakpoints.sort()
 
-    # Initialize time series
-    time_series_data = np.zeros(size)
+    ts = np.zeros(size)
 
-    for i in range(difficulty):
+    for i in range(num_seg):
         start_idx = breakpoints[i]
         end_idx = breakpoints[i + 1]
-        slope = np.random.uniform(-1, 1)
+        slope = rng.uniform(-max_slope, max_slope)
         segment = slope * np.arange(end_idx - start_idx) + (
-            0 if i == 0 else time_series_data[start_idx - 1]
+            0 if i == 0 else ts[start_idx - 1]
         )
-        time_series_data[start_idx:end_idx] = segment
-
-    return pd.DataFrame({"values": time_series_data}, index=range(size))
-
-
-def uniform_piecewise_linear(difficulty, size=1000):
-    # Initialize time series
-    time_series_data = np.zeros(size)
-
-    # Number of segments is difficulty + 1
-    num_segments = difficulty + 1
-    segment_size = size // num_segments
-
-    for i in range(num_segments):
-        start_idx = i * segment_size
-        end_idx = (
-            (i + 1) * segment_size if i != num_segments - 1 else size
-        )  # Ensure the last segment goes up to the end
-        slope = np.random.uniform(-1, 1)
-        segment = slope * np.arange(end_idx - start_idx) + (
-            0 if i == 0 else time_series_data[start_idx - 1]
-        )
-        time_series_data[start_idx:end_idx] = segment
-
-    return pd.DataFrame({"values": time_series_data}, index=range(size))
+        ts[start_idx:end_idx] = segment
+    ts = MinMaxScaler().fit_transform(ts.reshape(-1, 1))
+    return (ts * (max_value - min_value) + min_value).flatten()

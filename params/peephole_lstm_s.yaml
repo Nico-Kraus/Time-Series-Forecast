@@ -1,0 +1,14 @@
+batch_size: 16
+device: cpu
+epochs: 200
+hidden_dim: 64
+input_dim: 1
+lookback: 10
+loss: L1
+lr: 0.01
+model: peepholelstm
+n_layers: 2
+optimizer: Adam
+patience: 20
+output_dim: 1
+init_method: 'kaiming' # normal, kaiming, xavier, uniform

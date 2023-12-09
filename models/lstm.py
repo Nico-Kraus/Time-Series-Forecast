@@ -5,7 +5,7 @@ import torch.nn as nn
 class LSTM(nn.Module):
     device: str = "cpu"
 
-    def __init__(self, input_dim, hidden_dim, n_layers, output_dim):
+    def __init__(self, input_dim, hidden_dim, n_layers, output_dim, **params):
         super(LSTM, self).__init__()
 
         self.hidden_dim = hidden_dim

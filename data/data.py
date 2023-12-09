@@ -1,38 +1,64 @@
+import numpy as np
+import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 from data.repeating import repeating
 from data.sinusoidal import sinusoidal
 from data.multi_sinusoidal import multi_sinusoidal
-from data.random import random
-from data.sinusoidal_with_noise import sinusoidal_with_noise
-from data.piecewise_linear import piecewise_linear, uniform_piecewise_linear
-from data.autoregressive import autoregressive
+from data.noise import noise
+from data.piecewise_constant import piecewise_constant
+from data.piecewise_linear import piecewise_linear
+from data.uniform_piecewise_linear import uniform_piecewise_linear
+from data.trend import trend
+from data.linear import linear
+from data.exponential import exponential
+from data.polynomial import polynomial
+from data.logistic import logistic
+from data.uci_synthetic_control import uci_synthetic_control
+from data.uci_gait import uci_gait
 
 _c = {
     "repeating": repeating,
     "sinusoidal": sinusoidal,
     "multi_sinusoidal": multi_sinusoidal,
-    "random": random,
-    "sinusoidal_with_noise": sinusoidal_with_noise,
+    "noise": noise,
+    "piecewise_constant": piecewise_constant,
     "piecewise_linear": piecewise_linear,
     "uniform_piecewise_linear": uniform_piecewise_linear,
-    "autoregressive": autoregressive,
+    "trend": trend,
+    "linear": linear,
+    "exponential": exponential,
+    "polynomial": polynomial,
+    "logistic": logistic,
+    "uci_synthetic_control": uci_synthetic_control,
+    "uci_gait": uci_gait
 }
 
 
 class Data:
-    def __init__(self, category, size, difficulty, lookback):
+    def __init__(self, size, config, seed, lookback=0):
         self.lookback = lookback
         self.size = size
+        rng = np.random.default_rng(seed)
         if lookback != None:
-            size = size + lookback + 1
-        self.data = _c[category](difficulty=difficulty, size=size)
+            size = size + lookback
+        self.data = pd.DataFrame({"values": np.zeros(size)}, index=range(size))
+        for category, params in sorted(config.items()):
+            self.data["values"] += _c[category](size=size, rng=rng, **params)
         self.data["values"] = MinMaxScaler().fit_transform(self.data[["values"]])
 
-    def get(self, split=(0.8, 0.2)):
+    def get(self, split=(0.8, 0.1, 0.1)):
         if split:
-            train = self.data.iloc[: int(self.size * split[0] + self.lookback)]
-            val = self.data.iloc[-int(self.size * split[1] + self.lookback) :]
-            return train, val
+            train_end_idx = int(self.size * split[0]) + self.lookback
+            train = self.data.iloc[:train_end_idx]
+
+            val_start_idx = train_end_idx - self.lookback
+            val_end_idx = val_start_idx + int(self.size * split[1]) + self.lookback
+            val = self.data.iloc[val_start_idx:val_end_idx]
+
+            test_start_idx = val_end_idx - self.lookback
+            test = self.data.iloc[test_start_idx:]
+
+            return train, val, test
         else:
             return self.data

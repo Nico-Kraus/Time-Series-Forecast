@@ -2,8 +2,12 @@ import torch
 from torch.utils.data import Dataset
 
 from models.lstm import LSTM
+from models.peephole_lstm import PeepholeLSTM
+from models.open_lstm import OpenLSTM
+from models.input_lstm import InputLSTM
+from models.dnn import DNN
 
-_model = {"lstm": LSTM}
+_model = {"lstm": LSTM, "peepholelstm": PeepholeLSTM, "openlstm": OpenLSTM, "inputlstm": InputLSTM, "dnn": DNN}
 _loss = {"MSE": torch.nn.MSELoss, "L1": torch.nn.L1Loss}
 _optimizer = {
     "Adam": torch.optim.Adam,
@@ -18,7 +22,7 @@ class SlidingWindowDataset(Dataset):
         self.lookback = lookback
 
     def __len__(self):
-        return len(self.time_series) - self.lookback
+        return len(self.time_series) - self.lookback + 1
 
     def __getitem__(self, idx):
         x = self.time_series[idx : idx + self.lookback - 1].clone().detach()
