@@ -16,14 +16,14 @@ loss_func = "L1"
 data_params = {
     "size": 1000,
     "seed": 0,
-    "config": {"piecewise_linear": {"num_seg": 1}},
+    "config": {"multi_sinusoidal": {"num_sin": 1}},
 }
 
-max_difficulty = 10
-increasing_type = "piecewise_linear"
-increasing_param = "num_seg"
+max_difficulty = 100
+increasing_type = "multi_sinusoidal"
+increasing_param = "num_sin"
 factor = 1
-repeats = 1
+repeats = 10
 
 model_names = [
     "dnn_xs",
@@ -43,7 +43,6 @@ for model in model_names:
 
 data_params["lookback"] = data_lookback
 columns = ["type", "seed", "difficulty"] + model_names + predictor_names + metrics
-data_type = dict_to_string(data_params)
 results = pd.DataFrame(columns=columns)
 for difficulty in range(1, max_difficulty + 1):
     print(f"{difficulty} ", end="", flush=True)
@@ -60,7 +59,7 @@ for difficulty in range(1, max_difficulty + 1):
             predictor_results[predictor_name] = get_prediction_loss(test_df, method=predictor_name, loss=loss_func, lookback=data_lookback)
 
         row_data = {
-            "type": data_type,
+            "type": dict_to_string(data_params),
             "seed": data_params["seed"],
             "difficulty": difficulty,
             "entropy": entropy,

@@ -3,10 +3,11 @@ from utils import get_data
 import pandas as pd
 
 csv_name = "all_data"
+csv_name = "entrophy_piecewise_linear_100"
 
-data, data_lookback, loss_func = get_data("data")
-plot_all_ts(data)
-print(len(data))
+# data, data_lookback, loss_func = get_data("data")
+# plot_all_ts(data)
+# print(len(data))
 
 results = pd.read_csv(f"results/{csv_name}.csv")
 print(results)

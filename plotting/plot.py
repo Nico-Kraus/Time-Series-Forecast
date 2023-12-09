@@ -14,10 +14,15 @@ from data.data import Data
 def plot_box(df, filename, categories):
     melted_df = df.melt(value_vars=categories, var_name='Category', value_name='Value')
 
+    medians = melted_df.groupby('Category')['Value'].median().sort_values()
+    sorted_categories = medians.index.tolist()
+
     plt.figure(figsize=(10, 6))
-    sns.boxplot(data=melted_df, x='Category', y='Value')
+    # sns.boxplot(data=melted_df, x='Category', y='Value')
+    sns.boxplot(data=melted_df, x='Category', y='Value', order=sorted_categories)
 
     plt.tight_layout()
+    plt.ylim(0,0.12)
 
     create_dir(Path(PATH, "out/all_results"))
     plt.savefig(Path(PATH, "out/all_results", f"{filename}.png"))
@@ -55,10 +60,11 @@ def plot_ridge(df, filename, categories):
 
         g.map(label, "Value")
 
-    g.fig.subplots_adjust(hspace=-0.25)
+    g.fig.subplots_adjust(hspace=-0.4)
     g.set_titles("")
     g.set(yticks=[])
     g.despine(bottom=True, left=True)
+    plt.xlim(-0.1,0.4)
 
     create_dir(Path(PATH, "out/all_results"))
     plt.savefig(Path(PATH, "out/all_results", f"{filename}.png"))
@@ -277,7 +283,7 @@ def double_plot_linear_regressions(results, name, categories, path="results"):
                         df.index.name = 'difficulty'
                         df = df.reset_index()
                     df = df.rename(columns={'difficulty': 'x'})
-                    sns.regplot(data=df, x="x", y=category, ax=axs[i//2][i%2], label=category, order=2,
+                    sns.regplot(data=df, x="x", y=category, ax=axs[i//2][i%2], label=category, order=1,
                                 line_kws={"linewidth":1}, scatter_kws={"s":3})
                 else:
                     warnings.warn(f"Column '{category}' does not exist in DataFrame.")
