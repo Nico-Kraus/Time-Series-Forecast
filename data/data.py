@@ -14,6 +14,8 @@ from data.linear import linear
 from data.exponential import exponential
 from data.polynomial import polynomial
 from data.logistic import logistic
+from data.uci_synthetic_control import uci_synthetic_control
+from data.uci_gait import uci_gait
 
 _c = {
     "repeating": repeating,
@@ -28,6 +30,8 @@ _c = {
     "exponential": exponential,
     "polynomial": polynomial,
     "logistic": logistic,
+    "uci_synthetic_control": uci_synthetic_control,
+    "uci_gait": uci_gait
 }
 
 

@@ -5,8 +5,9 @@ from models.lstm import LSTM
 from models.peephole_lstm import PeepholeLSTM
 from models.open_lstm import OpenLSTM
 from models.input_lstm import InputLSTM
+from models.dnn import DNN
 
-_model = {"lstm": LSTM, "peepholelstm": PeepholeLSTM, "openlstm": OpenLSTM, "inputlstm": InputLSTM}
+_model = {"lstm": LSTM, "peepholelstm": PeepholeLSTM, "openlstm": OpenLSTM, "inputlstm": InputLSTM, "dnn": DNN}
 _loss = {"MSE": torch.nn.MSELoss, "L1": torch.nn.L1Loss}
 _optimizer = {
     "Adam": torch.optim.Adam,

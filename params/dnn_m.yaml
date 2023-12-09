@@ -1,0 +1,14 @@
+batch_size: 64
+device: cpu
+epochs: 100
+hidden_dim: 128
+input_dim: 10 # = lookback
+n_layers: 1
+output_dim: 1
+lookback: 10
+loss: L1
+lr: 0.01
+model: dnn
+optimizer: Adam
+patience: 10
+

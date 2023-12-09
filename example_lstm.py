@@ -3,13 +3,13 @@ from trainer.trainer import Trainer
 from plotting.plot import plot_pred
 from utils import get_params, keys_to_string
 
-params_file = "input_lstm_m"
+params_file = "open_lstm_m"
 trainer_params = get_params(params_file)
 lookback = trainer_params["lookback"]
 
 size = 1000
 seed = 39
-config = {"piecewise_constant": {"num_seg": 5}}
+config = {"uci_gait": {"start": 100}}
 
 data = Data(size=size, seed=seed, config=config, lookback=lookback)
 train_df, val_df, test_df = data.get(split=(0.8, 0.1, 0.1))

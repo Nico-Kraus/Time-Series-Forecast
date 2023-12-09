@@ -47,8 +47,21 @@ def scale(l):
     max_value = max(l)
     return [x / max_value for x in l]
 
+def get_data(name):
+    with open(f"{name}.yaml", "r") as file:
+        pre_data = yaml.safe_load(file)
+    result = {}
+    for name, config in pre_data["configs"].items():
+        seed = config["seed"] if "seed" in config else pre_data["seed"]
+        config.pop("seed", None)
+        result[name] = {"size": pre_data["size"], "seed": seed, "config": config}
+    return result, pre_data["data_lookback"], pre_data["loss_func"]
 
-def get_params(name):
+
+def get_params(name, folder="params"):
+    if folder == None:
+        with open(f"{name}.yaml", "r") as file:
+            return yaml.safe_load(file)
     with open(f"params/{name}.yaml", "r") as file:
         return yaml.safe_load(file)
 

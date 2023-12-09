@@ -4,12 +4,14 @@ from plotting.plot import plot_pred
 from utils import get_params, keys_to_string
 
 lookback = 10
-method = "last_value"
+# method = "last_value"
+# method = "regression"
+method = "arima"
 loss = "L1"
 
 size = 1000
-seed = 39
-config = {"piecewise_constant": {"num_seg": 5}}
+seed = None
+config = {"sinusoidal": {"period": 200}}
 
 data = Data(size=size, seed=seed, config=config, lookback=lookback)
 train_df, val_df, test_df = data.get(split=(0.8, 0.1, 0.1))
@@ -25,5 +27,5 @@ plot_pred(
     test_df=test_df,
     test_pred=test_pred,
     lookback=lookback,
-    name=f"plot_pred_{keys_to_string(config.keys())}",
+    name=f"plot_pred_{method}_{keys_to_string(config.keys())}",
 )
