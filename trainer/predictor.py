@@ -3,6 +3,8 @@ from torch.utils.data import DataLoader
 from sklearn.linear_model import LinearRegression
 from trainer.utils import SlidingWindowDataset, _loss
 import pmdarima as pm
+import numpy as np
+import warnings
 
 
 class Predictor:
@@ -41,6 +43,7 @@ class Predictor:
     def regression(self, y_):
         x_ = torch.arange(self.__lookback).reshape(-1, 1)
         preds_ = []
+
         for t in range(y_.shape[0]):
             y = y_[t, :, 0].reshape(-1, 1)
             r_sq = self.model.fit(x_, y)
@@ -53,13 +56,24 @@ class Predictor:
     def arima(self, x):
         predictions = []
         batch_size = x.shape[0]
+
         for i in range(batch_size):
-            import warnings
-            warnings.filterwarnings("ignore", category=UserWarning, module='pmdarima.arima.auto')
-            warnings.filterwarnings("ignore", category=RuntimeWarning, module='statsmodels.tsa.statespace.sarimax')
-            series = x[i, :, 0].numpy()  # Convert to numpy array and remove the last dimension
-            model = pm.auto_arima(series, suppress_warnings=True, error_action='ignore')
-            prediction = model.predict(n_periods=1)
-            predictions.append(prediction[0])
+            series = x[i, :, 0].numpy()
+
+            if np.isnan(series).any() or np.isinf(series).any():
+                warnings.warn("NaNs or infs found in series, replacing with 0")
+                series = np.nan_to_num(series, posinf=1, neginf=0)
+
+            try:
+                warnings.filterwarnings("ignore", category=UserWarning, module='pmdarima.arima.auto')
+                warnings.filterwarnings("ignore", category=RuntimeWarning, module='statsmodels.tsa.statespace.sarimax')
+                model = pm.auto_arima(series, suppress_warnings=True, error_action='ignore')
+                prediction = model.predict(n_periods=1)
+                predictions.append(prediction[0])
+            except Exception as e:
+                # In case of an exception, append the last value of the series
+                warnings.warn(f"ARIMA model fitting failed: {e}, using the last value of the series")
+                predictions.append(series[-1])
+
         return torch.tensor(predictions)
 

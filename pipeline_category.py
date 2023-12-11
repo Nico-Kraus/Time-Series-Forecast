@@ -16,12 +16,12 @@ loss_func = "L1"
 data_params = {
     "size": 1000,
     "seed": 0,
-    "config": {"multi_sinusoidal": {"num_sin": 1}},
+    "config": {"piecewise_linear": {"num_seg": 1}},
 }
 
 max_difficulty = 100
-increasing_type = "multi_sinusoidal"
-increasing_param = "num_sin"
+increasing_type = "piecewise_linear"
+increasing_param = "num_seg"
 factor = 1
 repeats = 10
 

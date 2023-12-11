@@ -14,6 +14,8 @@ class Trainer:
         input_dim: int = 1,
         hidden_dim: int = 32,
         n_layers: int = 2,
+        num_filters: int = 16,
+        kernel_size: int = 3,
         output_dim: int = 1,
         epochs=10,
         lr: float = 0.01,
@@ -30,6 +32,9 @@ class Trainer:
             hidden_dim=hidden_dim,
             output_dim=output_dim,
             n_layers=n_layers,
+            num_filters=num_filters,
+            kernel_size=kernel_size,
+            lookback=lookback,
             init_method=init_method,
         )
         self.__loss = _loss[loss]()
@@ -62,7 +67,6 @@ class Trainer:
             train_loss = 0
             for batch_idx, (x_true, y_true) in enumerate(train_loader):
                 self.__model.zero_grad()
-
                 pred = self.__model(x_true)
                 loss = self.__loss(pred, y_true.view(y_true.shape[0], 1))
                 loss.backward()

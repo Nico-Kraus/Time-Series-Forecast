@@ -7,6 +7,7 @@ import EntropyHub as EH
 
 from trainer.trainer import Trainer
 from trainer.predictor import Predictor
+from trainer.knn_predictor import KNN_Predictor
 
 def df_to_csv(df,name):
     create_dir("results")
@@ -73,10 +74,17 @@ def get_model_test_loss(train_df, val_df, test_df, trainer_params):
     return test_loss
 
 
-def get_prediction_loss(test_df, method, loss, lookback):
-    predictor = Predictor(lookback=lookback, method=method, loss=loss)
-    test_loss, test_pred = predictor.test(test_df, info=False)
-    return test_loss
+def get_prediction_loss(train_df, val_df, test_df, method, loss, lookback):
+    if method == "knn":
+        predictor = KNN_Predictor(lookback=lookback, loss=loss)
+        full_train_df = pd.concat([train_df, val_df])
+        full_train_df = full_train_df[~full_train_df.index.duplicated(keep='first')]
+        test_loss, test_pred = predictor.test(full_train_df, test_df)
+        return test_loss
+    else:
+        predictor = Predictor(lookback=lookback, method=method, loss=loss)
+        test_loss, test_pred = predictor.test(test_df, info=False)
+        return test_loss
 
 
 def get_sample_entropy(train_df, val_df, test_df, m, tau):

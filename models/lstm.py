@@ -3,8 +3,6 @@ import torch.nn as nn
 
 
 class LSTM(nn.Module):
-    device: str = "cpu"
-
     def __init__(self, input_dim, hidden_dim, n_layers, output_dim, **params):
         super(LSTM, self).__init__()
 
@@ -13,6 +11,7 @@ class LSTM(nn.Module):
 
         self.lstm = nn.LSTM(input_dim, hidden_dim, n_layers, batch_first=True)
         self.fc = nn.Linear(hidden_dim, output_dim)
+        self.to_device()
 
     def forward(self, x):
         h0 = (
@@ -29,6 +28,6 @@ class LSTM(nn.Module):
         out = self.fc(out[:, -1, :])
         return out
 
-    def to_device(self, device: str):
-        self.to(device)
-        self.device = device
+    def to_device(self):
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.to(self.device)

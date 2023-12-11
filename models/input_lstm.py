@@ -137,7 +137,7 @@ class StackedLSTM(nn.Module):
 
 
 class InputLSTM(nn.Module):
-    def __init__(self, input_dim, hidden_dim, n_layers, output_dim, init_method="kaiming"):
+    def __init__(self, input_dim, hidden_dim, n_layers, output_dim, init_method="kaiming", **params):
         super(InputLSTM, self).__init__()
 
         self.hidden_dim = hidden_dim

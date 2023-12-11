@@ -4,8 +4,6 @@ import torch.nn.functional as F
 
 
 class DNN(nn.Module):
-    device: str = "cpu"
-
     def __init__(self, input_dim, hidden_dim, n_layers, output_dim, **params):
         super(DNN, self).__init__()
         self.fc1 = nn.Linear(input_dim, hidden_dim)
@@ -13,6 +11,7 @@ class DNN(nn.Module):
         for _ in range(n_layers):
             self.hidden_layers.append(nn.Linear(hidden_dim, hidden_dim))
         self.fc3 = nn.Linear(hidden_dim, output_dim)
+        self.to_device()
 
     def forward(self, x):
         x = F.relu(self.fc1(x.squeeze(2)))
@@ -21,6 +20,6 @@ class DNN(nn.Module):
         x = self.fc3(x)
         return x
 
-    def to_device(self, device: str):
-        self.to(device)
-        self.device = device
+    def to_device(self):
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.to(self.device)

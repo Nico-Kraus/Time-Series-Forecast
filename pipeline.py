@@ -11,12 +11,12 @@ from utils import (
 from data.data import Data
 
 data, data_lookback, loss_func = get_data("data")
-csv_name = "all_data"
+csv_name = "all_data_2"
 
 model_names = [
-    "lstm_xs", "open_lstm_m", "dnn_xs", "dnn_m"
+    "lstm_xs", "open_lstm_m", "dnn_xs", "dnn_m", "cnn_xs", "cnn_m"
 ]
-predictor_names = ["last_value", "regression", "arima"]
+predictor_names = ["last_value", "regression", "arima", "knn"]
 metrics = ["entropy"]
 
 model_params = {}
@@ -36,7 +36,7 @@ for idx, (name, data_params) in enumerate(data.items()):
         model_results[model_name] = get_model_test_loss(train_df, val_df, test_df, params)
     predictor_results = {}
     for predictor_name in predictor_names:
-        predictor_results[predictor_name] = get_prediction_loss(test_df, method=predictor_name, loss=loss_func, lookback=data_lookback)
+        predictor_results[predictor_name] = get_prediction_loss(train_df, val_df, test_df, method=predictor_name, loss=loss_func, lookback=data_lookback)
 
     row_data = {
         "name": name,
