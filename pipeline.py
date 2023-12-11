@@ -11,7 +11,7 @@ from utils import (
 from data.data import Data
 
 data, data_lookback, loss_func = get_data("data")
-csv_name = "all_data_2"
+csv_name = "all_data"
 
 model_names = [
     "lstm_xs", "open_lstm_m", "dnn_xs", "dnn_m", "cnn_xs", "cnn_m"

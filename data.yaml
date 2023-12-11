@@ -345,4 +345,65 @@ configs:
   gait_5:
     uci_gait:
       start: 169523
+  apple_1h:
+    fetch_stock_data:
+      symbol: "AAPL"
+      data_type: "Close"
+      interval: "1h"
+      start_date: "2022-01-01"
+  microsoft_5d:
+    fetch_stock_data:
+      symbol: "MSFT"
+      data_type: "Open"
+      interval: "5d"
+      start_date: "2000-01-01"
+  amazon_dotcom_bubble:
+    fetch_stock_data:
+      symbol: "AMZN"
+      data_type: "High"
+      interval: "1d"
+      start_date: "1997-03-10"  # Approx. 900 business days before the dot-com bubble burst
+  jpmorgan_2008_crisis:
+    fetch_stock_data:
+      symbol: "JPM"
+      data_type: "Low"
+      interval: "1d"
+      start_date: "2005-05-01"  # Leading up to the 2008 financial crisis
+  sp500_financial_crisis:
+    fetch_stock_data:
+      symbol: "^GSPC"
+      data_type: "Adj Close"
+      interval: "1d"
+      start_date: "2007-07-01"  # S&P 500 during the 2008 financial crisis period
+  sp500_covid_crash_val:
+    fetch_stock_data:
+      symbol: "XWD.TO"
+      data_type: "Close"
+      interval: "1d"
+      start_date: "2016-10-01"  # Before the COVID-19 market crash in early 2020
+  sp500_covid_crash_test:
+    fetch_stock_data:
+      symbol: "XWD.TO"
+      data_type: "Close"
+      interval: "1d"
+      start_date: "2016-07-01"  # Before the COVID-19 market crash in early 2020
+  tesla_volume_daily:
+    fetch_stock_data:
+      symbol: "TSLA"
+      data_type: "Volume"
+      interval: "1d"
+      start_date: "2017-01-01"
+  johnson_johnson_daily:
+    fetch_stock_data:
+      symbol: "JNJ"
+      data_type: "Close"
+      interval: "1d"
+      start_date: "2015-01-01"
+  coca_cola_daily:
+    fetch_stock_data:
+      symbol: "KO"
+      data_type: "Close"
+      interval: "1d"
+      start_date: "2012-01-01"
+
 

@@ -55,7 +55,7 @@ def get_data(name):
     for name, config in pre_data["configs"].items():
         seed = config["seed"] if "seed" in config else pre_data["seed"]
         config.pop("seed", None)
-        result[name] = {"size": pre_data["size"], "seed": seed, "config": config}
+        result[name] = {"size": pre_data["size"], "seed": seed, "lookback": pre_data["data_lookback"], "config": config}
     return result, pre_data["data_lookback"], pre_data["loss_func"]
 
 
@@ -79,7 +79,7 @@ def get_prediction_loss(train_df, val_df, test_df, method, loss, lookback):
         predictor = KNN_Predictor(lookback=lookback, loss=loss)
         full_train_df = pd.concat([train_df, val_df])
         full_train_df = full_train_df[~full_train_df.index.duplicated(keep='first')]
-        test_loss, test_pred = predictor.test(full_train_df, test_df)
+        test_loss, test_pred = predictor.test(full_train_df, test_df, info=False)
         return test_loss
     else:
         predictor = Predictor(lookback=lookback, method=method, loss=loss)

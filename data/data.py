@@ -16,6 +16,7 @@ from data.polynomial import polynomial
 from data.logistic import logistic
 from data.uci_synthetic_control import uci_synthetic_control
 from data.uci_gait import uci_gait
+from data.stock import fetch_stock_data
 
 _c = {
     "repeating": repeating,
@@ -31,7 +32,8 @@ _c = {
     "polynomial": polynomial,
     "logistic": logistic,
     "uci_synthetic_control": uci_synthetic_control,
-    "uci_gait": uci_gait
+    "uci_gait": uci_gait,
+    "fetch_stock_data": fetch_stock_data
 }
 
 

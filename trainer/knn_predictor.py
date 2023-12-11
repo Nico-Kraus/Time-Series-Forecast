@@ -9,7 +9,7 @@ class KNN_Predictor:
     def __init__(self, loss, lookback):
         self.__loss = _loss[loss]()
         self.__lookback = lookback
-        self.__k = 3
+        self.__k = 8
 
         self.__knn = KNeighborsTSPI(k=self.__k, len_query=self.__lookback )
 

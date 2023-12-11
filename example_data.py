@@ -23,7 +23,10 @@ seed = 39
 #     "noise": {"std_dev": 0.01}
 # }
 # config = {"uci_synthetic_control": {"data_type": "cyclic", "number": 3}} # size = 60
-config = {"uci_gait": {"start": 20000}} # size = 181800
+# config = {"uci_gait": {"start": 20000}} # size = 181800
+# config = {"fetch_stock_data": {"symbol": "AAPL", "data_type": "Close", "interval": "1d", "start_date": "2019-01-01"}}
+# config = {"fetch_stock_data": {"symbol": "AAPL", "data_type": "Close", "interval": "5d", "start_date": "2000-01-01"}}
+config = {"fetch_stock_data": {"symbol": "AAPL", "data_type": "Close", "interval": "1h", "start_date": "2022-01-01"}}
 
 train, val, test = Data(size=size, seed=seed, config=config, lookback=0).get(split=(0.8,0.1,0.1))
 print(test)
