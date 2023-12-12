@@ -70,13 +70,20 @@ def plot_ridge(df, filename, categories):
     plt.savefig(Path(PATH, "out/all_results", f"{filename}.png"))
 
 def plot_correlation_matrix(df, filename, categories):
-    filtered_df = df[categories]
+    mean_df = df.groupby("name").mean()
+    corr = mean_df[categories].corr()
 
-    corr = filtered_df.corr()
+    for category in categories:
+        category_df = df[["name", "repeats", category]]
+        pivoted_df = category_df.pivot(index="name", columns="repeats", values=category)
+        pivoted_df = pivoted_df.dropna()
+        if pivoted_df.shape[0] > 1:  # Check to ensure there are at least 2 rows for correlation calculation
+            category_corr = pivoted_df.corr()
+            avg_corr = (category_corr.sum().sum() - category_corr.shape[0]) / (category_corr.size - category_corr.shape[0])
+            corr.loc[category, category] = avg_corr
 
     plt.figure(figsize=(10, 8))
     sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', square=True, linewidths=.5, vmin=-1, vmax=1)
-    # sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', square=True, linewidths=.5)
 
     plt.tight_layout()
 

@@ -3,11 +3,12 @@ import os
 
 import pandas as pd
 import numpy as np
-import EntropyHub as EH
 
 from trainer.trainer import Trainer
 from trainer.predictor import Predictor
 from trainer.knn_predictor import KNN_Predictor
+
+from characteristics.characteristics import characteristics
 
 def df_to_csv(df,name):
     create_dir("results")
@@ -87,8 +88,6 @@ def get_prediction_loss(train_df, val_df, test_df, method, loss, lookback):
         return test_loss
 
 
-def get_sample_entropy(train_df, val_df, test_df, m, tau):
-    X = pd.concat([train_df["values"], val_df["values"], test_df["values"]]).to_numpy()
-    Samp, Phi1, Phi2 = EH.SampEn(X, m=10, **({} if tau == 0 else {"tau": tau}))
-    mod_Sample = [0 if np.isinf(s) or np.isnan(s) else s for s in Samp]
-    return sum(mod_Sample)
+def get_characteristic(train_df, val_df, test_df, data_lookback, characteristic, params):
+    data_np = pd.concat([train_df["values"].iloc[10:], val_df["values"].iloc[10:], test_df["values"].iloc[10:]]).to_numpy()
+    return characteristics[characteristic](data_np, **params)
