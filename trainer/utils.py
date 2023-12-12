@@ -7,8 +7,9 @@ from models.open_lstm import OpenLSTM
 from models.input_lstm import InputLSTM
 from models.dnn import DNN
 from models.cnn import CNN_XS, CNN_M
+from models.transformer import Transformer
 
-_model = {"lstm": LSTM, "peepholelstm": PeepholeLSTM, "openlstm": OpenLSTM, "inputlstm": InputLSTM, "dnn": DNN, "cnn_xs": CNN_XS, "cnn_m": CNN_M}
+_model = {"lstm": LSTM, "peepholelstm": PeepholeLSTM, "openlstm": OpenLSTM, "inputlstm": InputLSTM, "dnn": DNN, "cnn_xs": CNN_XS, "cnn_m": CNN_M, "transformer": Transformer}
 _loss = {"MSE": torch.nn.MSELoss, "L1": torch.nn.L1Loss}
 _optimizer = {
     "Adam": torch.optim.Adam,

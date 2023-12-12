@@ -75,7 +75,8 @@ def plot_correlation_matrix(df, filename, categories):
     corr = filtered_df.corr()
 
     plt.figure(figsize=(10, 8))
-    sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', square=True, linewidths=.5)
+    sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', square=True, linewidths=.5, vmin=-1, vmax=1)
+    # sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', square=True, linewidths=.5)
 
     plt.tight_layout()
 

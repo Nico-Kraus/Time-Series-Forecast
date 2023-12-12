@@ -16,6 +16,8 @@ class Trainer:
         n_layers: int = 2,
         num_filters: int = 16,
         kernel_size: int = 3,
+        feature_size: int = 250,
+        dropout: float = 0.1,
         output_dim: int = 1,
         epochs=10,
         lr: float = 0.01,
@@ -34,6 +36,8 @@ class Trainer:
             n_layers=n_layers,
             num_filters=num_filters,
             kernel_size=kernel_size,
+            feature_size=feature_size,
+            dropout = dropout,
             lookback=lookback,
             init_method=init_method,
         )

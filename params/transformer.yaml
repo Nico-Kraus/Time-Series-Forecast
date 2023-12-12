@@ -1,14 +1,15 @@
 batch_size: 64
 device: cpu
 epochs: 500
-hidden_dim: 128
-input_dim: 10 # = lookback
+input_dim: 1
+feature_size: 250
 n_layers: 1
+dropout: 0.1
 output_dim: 1
 lookback: 10
 loss: L1
-lr: 0.01
-model: dnn
+lr: 0.001
+model: transformer
 optimizer: Adam
 patience: 50
 

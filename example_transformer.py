@@ -3,7 +3,7 @@ from trainer.trainer import Trainer
 from plotting.plot import plot_pred
 from utils import get_params, keys_to_string
 
-params_file = "cnn_m"
+params_file = "transformer"
 trainer_params = get_params(params_file)
 lookback = trainer_params["lookback"]
 
