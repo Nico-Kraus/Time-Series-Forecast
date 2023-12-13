@@ -16,6 +16,10 @@ from data.polynomial import polynomial
 from data.logistic import logistic
 from data.uci_synthetic_control import uci_synthetic_control
 from data.uci_gait import uci_gait
+from data.uci_air_quality import uci_air_quality
+from data.uci_electricity import uci_electricity
+from data.uci_ai_maintenance import uci_ai_maintenance
+from data.icmc_usp import icmc_usp
 from data.stock import fetch_stock_data
 from data.probabilistic_discret import probabilistic_discret
 
@@ -34,6 +38,10 @@ _c = {
     "logistic": logistic,
     "uci_synthetic_control": uci_synthetic_control,
     "uci_gait": uci_gait,
+    "uci_air_quality": uci_air_quality,
+    "uci_electricity": uci_electricity,
+    "uci_ai_maintenance": uci_ai_maintenance,
+    "icmc_usp": icmc_usp,
     "fetch_stock_data": fetch_stock_data,
     "probabilistic_discret": probabilistic_discret
 }

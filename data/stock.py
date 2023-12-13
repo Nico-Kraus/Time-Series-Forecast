@@ -50,8 +50,7 @@ def calculate_end_date(start_date, size, interval):
     start = pd.to_datetime(start_date)
     
     if interval.endswith('m'):
-        minutes = int(interval[:-1]) * size
-        return (start + Minute(minutes)).strftime('%Y-%m-%d')
+        return (start + BDay(5)).strftime('%Y-%m-%d')
     elif interval.endswith('h'):
         hours = int(interval[:-1]) * size
         days = hours//4

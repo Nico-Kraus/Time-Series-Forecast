@@ -11,8 +11,8 @@ from utils import (
 from data.data import Data
 
 data, data_lookback, loss_func = get_data("data")
-csv_name = "all_data_10"
-repeats = 10
+csv_name = "all_data"
+repeats = 2
 
 model_names = ["lstm_xs", "open_lstm_m", "dnn_xs", "dnn_m", "cnn_xs", "cnn_m"]
 predictor_names = ["last_value", "regression", "arima", "knn"]

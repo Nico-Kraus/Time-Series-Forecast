@@ -22,6 +22,38 @@ configs:
       period: 10
     noise:
       std_dev: 0.5
+  probabilistic_discret_20_2:
+    probabilistic_discret: 
+      n: 20
+      m: 2
+      min_p: 0.01
+      max_p: 0.9
+      first_p: 0.8
+  probabilistic_discret_6_3:
+    probabilistic_discret: 
+      n: 6
+      m: 3
+      min_p: 0.01
+      max_p: 0.9
+      first_p: 0.9
+  probabilistic_discret_10_4:
+    seed: 44
+    probabilistic_discret:
+      n: 10
+      m: 4
+      min_p: 0.01
+      max_p: 0.9
+      first_p: 0.95
+  probabilistic_discret_15_2_noise:
+    seed: 44
+    probabilistic_discret:
+      n: 15
+      m: 2
+      min_p: 0.01
+      max_p: 0.9
+      first_p: 0.95
+    noise:
+      std_dev: 0.1
   linear:
     linear:
       slope: 1
@@ -345,6 +377,12 @@ configs:
   gait_5:
     uci_gait:
       start: 169523
+  apple_1m:
+    fetch_stock_data:
+      symbol: "AAPL"
+      data_type: "Close"
+      interval: "1m"
+      start_date: "2023-12-01"
   apple_1h:
     fetch_stock_data:
       symbol: "AAPL"
@@ -357,12 +395,30 @@ configs:
       data_type: "Open"
       interval: "5d"
       start_date: "2000-01-01"
+  amazon:
+    fetch_stock_data:
+      symbol: "AMZN"
+      data_type: "Close"
+      interval: "5d"
+      start_date: "2000-03-10"  # Approx. 900 business days before the dot-com bubble burst
   amazon_dotcom_bubble:
     fetch_stock_data:
       symbol: "AMZN"
       data_type: "High"
       interval: "1d"
       start_date: "1997-03-10"  # Approx. 900 business days before the dot-com bubble burst
+  amd:
+    fetch_stock_data:
+      symbol: "AMD"
+      data_type: "Adj Close"
+      interval: "1d"
+      start_date: "2010-07-06"  # Approx. 900 business days before the dot-com bubble burst
+  NVIDIA:
+    fetch_stock_data:
+      symbol: "AMD"
+      data_type: "Adj Close"
+      interval: "1d"
+      start_date: "2016-03-15"  # Approx. 900 business days before the dot-com bubble burst
   jpmorgan_2008_crisis:
     fetch_stock_data:
       symbol: "JPM"
@@ -405,5 +461,336 @@ configs:
       data_type: "Close"
       interval: "1d"
       start_date: "2012-01-01"
-
-
+  stockmarket_a:
+    icmc_usp:
+      name: stockmarket_a
+  stockmarket_f_2000:
+    icmc_usp:
+      start: 2000
+      name: stockmarket_f
+  stockmarket_l:
+    icmc_usp:
+      name: stockmarket_l
+  stockmarket_h_1000:
+    icmc_usp:
+      start: 1000
+      name: stockmarket_h
+  stockmarket_h_1500:
+    icmc_usp:
+      start: 1500
+      name: stockmarket_h
+  stockmarket_j_2000:
+    icmc_usp:
+      start: 2000
+      name: stockmarket_j
+  stockmarket_s_500:
+    icmc_usp:
+      start: 500
+      name: stockmarket_s
+  stockmarket_s_2000:
+    icmc_usp:
+      start: 2000
+      name: stockmarket_s
+  stockmarket_n:
+    icmc_usp:
+      name: stockmarket_n
+  sd_constant_level:
+    icmc_usp:
+      name: sd_constant_level
+  sd_increasing_trend:
+    icmc_usp:
+      name: sd_increasing_trend
+  sd_decreasing_trend:
+    icmc_usp:
+      name: sd_decreasing_trend
+  cca_constant_level:
+    icmc_usp:
+      name: cca_constant_level
+  cca_seasonal_patterns:
+    icmc_usp:
+      name: cca_seasonal_patterns
+  cca_increasing_trend:
+    icmc_usp:
+      name: cca_increasing_trend
+  cca_decreasing_trend:
+    icmc_usp:
+      name: cca_decreasing_trend
+  cca_upward_shift:
+    icmc_usp:
+      name: cca_upward_shift
+  cca_downward_shift:
+    icmc_usp:
+      name: cca_downward_shift
+  ccb_constant_level:
+    icmc_usp:
+      name: ccb_constant_level
+  ccb_double_seasonality:
+    icmc_usp:
+      name: ccb_double_seasonality
+  ccb_increasing_trend:
+    icmc_usp:
+      name: ccb_increasing_trend
+  ccb_decreasing_trend:
+    icmc_usp:
+      name: ccb_decreasing_trend
+  ccb_upward_shift:
+    icmc_usp:
+      name: ccb_upward_shift
+  ccb_downward_shift:
+    icmc_usp:
+      name: ccb_downward_shift
+  sdn__constant_level:
+    icmc_usp:
+      name: sdn_constant_level
+  sdn__increasing_trend:
+    icmc_usp:
+      name: sdn_increasing_trend
+  sdn__decreasing_trend:
+    icmc_usp:
+      name: sdn_decreasing_trend
+  henon:
+    icmc_usp:
+      name: "henon"
+  mackey_glass:
+    icmc_usp:
+      name: mackey_glass
+  lorenz:
+    icmc_usp:
+      name: lorenz
+  rossler:
+    icmc_usp:
+      name: "rossler"
+  ecgsyn:
+    icmc_usp:
+      name: ecgsyn
+  henon_2:
+    icmc_usp:
+      start: 1500
+      name: "henon"
+  mackey_glass_2:
+    icmc_usp:
+      start: 1500
+      name: mackey_glass
+  lorenz_2:
+    icmc_usp:
+      start: 1500
+      name: lorenz
+  rossler_2:
+    icmc_usp:
+      start: 1500
+      name: "rossler"
+  ecgsyn_2:
+    icmc_usp:
+      start: 1500
+      name: ecgsyn
+  banespa:
+    icmc_usp:
+      name: banespa
+  cemig:
+    icmc_usp:
+      name: cemig
+  ibv:
+    icmc_usp:
+      name: ibv
+  petrobras:
+    icmc_usp:
+      name: petrobras
+  darwin:
+    icmc_usp:
+      name: darwin
+  global:
+    icmc_usp:
+      name: global
+  stemp:
+    icmc_usp:
+      name: stemp
+  ecg_a:
+    icmc_usp:
+      name: ecg_a
+  ecg_b:
+    icmc_usp:
+      name: ecg_b
+  CO(GT)_0:
+    uci_air_quality:
+      start: 0
+      name: CO(GT)
+  CO(GT)_2000:
+    uci_air_quality:
+      start: 2000
+      name: CO(GT)
+  PT08.S1(CO)_0:
+    uci_air_quality:
+      start: 0
+      name: PT08.S1(CO)
+  PT08.S1(CO)_2000:
+    uci_air_quality:
+      start: 2000
+      name: PT08.S1(CO)
+  C6H6(GT)_0:
+    uci_air_quality:
+      start: 0
+      name: C6H6(GT)
+  C6H6(GT)_2000:
+    uci_air_quality:
+      start: 2000
+      name: C6H6(GT)
+  PT08.S2(NMHC)_0:
+    uci_air_quality:
+      start: 0
+      name: PT08.S2(NMHC)
+  PT08.S2(NMHC)_2000:
+    uci_air_quality:
+      start: 2000
+      name: PT08.S2(NMHC)
+  NOx(GT)_0:
+    uci_air_quality:
+      start: 0
+      name: NOx(GT)
+  NOx(GT)_2000:
+    uci_air_quality:
+      start: 2000
+      name: NOx(GT)
+  PT08.S3(NOx)_0:
+    uci_air_quality:
+      start: 0
+      name: PT08.S3(NOx)
+  PT08.S3(NOx)_2000:
+    uci_air_quality:
+      start: 2000
+      name: PT08.S3(NOx)
+  NO2(GT)_0:
+    uci_air_quality:
+      start: 0
+      name: NO2(GT)
+  NO2(GT)_2000:
+    uci_air_quality:
+      start: 2000
+      name: NO2(GT)
+  PT08.S4(NO2)_0:
+    uci_air_quality:
+      start: 0
+      name: PT08.S4(NO2)
+  PT08.S4(NO2)_2000:
+    uci_air_quality:
+      start: 2000
+      name: PT08.S4(NO2)
+  PT08.S5(O3)_0:
+    uci_air_quality:
+      start: 0
+      name: PT08.S5(O3)
+  PT08.S5(O3)_2000:
+    uci_air_quality:
+      start: 2000
+      name: PT08.S5(O3)
+  T_0:
+    uci_air_quality:
+      start: 0
+      name: T
+  T_2000:
+    uci_air_quality:
+      start: 2000
+      name: T
+  RH_0:
+    uci_air_quality:
+      start: 0
+      name: RH
+  RH_2000:
+    uci_air_quality:
+      start: 2000
+      name: RH
+  AH_0:
+    uci_air_quality:
+      start: 0
+      name: AH
+  AH_2000:
+    uci_air_quality:
+      start: 2000
+      name: AH
+  Electricity_GAP_0:
+    uci_electricity:
+      start: 0
+      name: Global_active_power
+  Electricity_GAP_20000:
+    uci_electricity:
+      start: 20000
+      name: Global_active_power
+  Electricity_GAP_40000:
+    uci_electricity:
+      start: 40000
+      name: Global_active_power
+  Electricity_GRP_5000:
+    uci_electricity:
+      start: 5000
+      name: Global_reactive_power
+  Electricity_GRP_25000:
+    uci_electricity:
+      start: 25000
+      name: Global_reactive_power
+  Electricity_GRP_45000:
+    uci_electricity:
+      start: 45000
+      name: Global_reactive_power
+  Electricity_V_10000:
+    uci_electricity:
+      start: 10000
+      name: Voltage
+  Electricity_V_30000:
+    uci_electricity:
+      start: 30000
+      name: Voltage
+  Electricity_V_50000:
+    uci_electricity:
+      start: 50000
+      name: Voltage
+  Electricity_GI_15000:
+    uci_electricity:
+      start: 15000
+      name: Global_intensity
+  Electricity_GI_35000:
+    uci_electricity:
+      start: 35000
+      name: Global_intensity
+  Electricity_GI_55000:
+    uci_electricity:
+      start: 55000
+      name: Global_intensity
+  AIM_Air_temperature:
+    uci_ai_maintenance:
+      start: 0
+      name: "Air temperature [K]"
+  AIM_Air_temperature_5000:
+    uci_ai_maintenance:
+      start: 5000
+      name: "Air temperature [K]"
+  AIM_Process_temperature:
+    uci_ai_maintenance:
+      start: 0
+      name: "Process temperature [K]"
+  AIM_Process_temperature_5000:
+    uci_ai_maintenance:
+      start: 5000
+      name: "Process temperature [K]"
+  AIM_Rotational_speed:
+    uci_ai_maintenance:
+      start: 0
+      name: "Rotational speed [rpm]"
+  AIM_Rotational_speed_5000:
+    uci_ai_maintenance:
+      start: 5000
+      name: "Rotational speed [rpm]"
+  AIM_Torque:
+    uci_ai_maintenance:
+      start: 0
+      name: "Torque [Nm]"
+  AIM_Torque_5000:
+    uci_ai_maintenance:
+      start: 5000
+      name: "Torque [Nm]"
+  AIM_Tool_wear:
+    uci_ai_maintenance:
+      start: 0
+      name: "Tool wear [min]"
+  AIM_Tool_wear_5000:
+    uci_ai_maintenance:
+      start: 5000
+      name: "Tool wear [min]"

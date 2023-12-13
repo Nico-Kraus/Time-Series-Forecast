@@ -132,7 +132,7 @@ def plot_all_ts(data):
     sns.set_style("darkgrid")
 
     num_series = len(data)
-    fig, axes = plt.subplots(num_series, 1, figsize=(10, 2 * num_series)) 
+    fig, axes = plt.subplots(num_series, 1, figsize=(10, 1.8*num_series)) 
 
     for idx, (name, data_params) in enumerate(data.items()):
         # Generate data for each time series
@@ -148,10 +148,7 @@ def plot_all_ts(data):
 
         # Set the ylabel for each subplot
         ax.set_ylabel(name)
-
-        # Hide x-axis labels for all but the last subplot
-        if idx < num_series - 1:
-            ax.set_xlabel("")
+        ax.set_xlabel("")
 
     # Adjust layout to prevent overlap
     plt.tight_layout()

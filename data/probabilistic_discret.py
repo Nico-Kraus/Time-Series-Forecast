@@ -19,8 +19,6 @@ def probabilistic_discret(rng, size = 1000, n = 10, m = 5, min_p = 0.1, max_p = 
         probabilities /= probabilities.sum()  # Normalize to sum up to 1
         transitions[n_] = dict(zip(followers, probabilities))
 
-    print(transitions)
-
     # Generate the time series
     time_series = [0]
     for _ in range(size - 1):
@@ -28,7 +26,5 @@ def probabilistic_discret(rng, size = 1000, n = 10, m = 5, min_p = 0.1, max_p = 
         choices, probs = zip(*transitions[current].items())
         next_int = rng.choice(choices, p=probs)
         time_series.append(next_int)
-    
-    print(time_series)
 
     return np.array(time_series)
