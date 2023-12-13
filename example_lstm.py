@@ -8,8 +8,10 @@ trainer_params = get_params(params_file)
 lookback = trainer_params["lookback"]
 
 size = 1000
-seed = 39
-config = {"uci_gait": {"start": 100}}
+seed = 42
+# config = {"probabilistic_discret": {"n": 10, "m": 2, "min_p": 0.01, "max_p": 0.9, "first_p": 0.9}}
+# config = {"probabilistic_discret": {"n": 20, "m": 2, "min_p": 0.01, "max_p": 0.9, "first_p": 0.8}}
+config = {"probabilistic_discret": {"n": 6, "m": 3, "min_p": 0.01, "max_p": 0.9, "first_p": 0.9}}
 
 data = Data(size=size, seed=seed, config=config, lookback=lookback)
 train_df, val_df, test_df = data.get(split=(0.8, 0.1, 0.1))

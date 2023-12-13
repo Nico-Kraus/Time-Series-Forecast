@@ -3,7 +3,7 @@ from utils import get_data
 import pandas as pd
 
 # csv_name = "all_data"
-csv_name = "all_data"
+csv_name = "all_data_10"
 # csv_name = "entrophy_piecewise_linear_100"
 # csv_name = "entrophy_multi_sinusoidal_100"
 

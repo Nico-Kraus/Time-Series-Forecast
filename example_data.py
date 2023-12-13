@@ -2,7 +2,7 @@ from data.data import Data
 from plotting.plot import plot_time_series, plot_return_distribution
 
 size = 1000
-seed = 39
+seed = 40
 # config = {"linear": {"slope": 1, "intercept": 0}}
 # config = {"polynomial": {"coefficients": [0,-1000,1],}} #quadratic
 # config = {"polynomial": {"coefficients": [0,525000,-1500,1],}} #cubic
@@ -26,7 +26,8 @@ seed = 39
 # config = {"uci_gait": {"start": 20000}} # size = 181800
 # config = {"fetch_stock_data": {"symbol": "AAPL", "data_type": "Close", "interval": "1d", "start_date": "2019-01-01"}}
 # config = {"fetch_stock_data": {"symbol": "AAPL", "data_type": "Close", "interval": "5d", "start_date": "2000-01-01"}}
-config = {"fetch_stock_data": {"symbol": "AAPL", "data_type": "Close", "interval": "1h", "start_date": "2022-01-01"}}
+# config = {"fetch_stock_data": {"symbol": "AAPL", "data_type": "Close", "interval": "1h", "start_date": "2022-01-01"}}
+config = {"probabilistic_discret": {"n": 10, "m": 5, "min_p": 0.1, "max_p": 0.9}}
 
 train, val, test = Data(size=size, seed=seed, config=config, lookback=0).get(split=(0.8,0.1,0.1))
 print(test)
