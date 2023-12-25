@@ -70,7 +70,7 @@ def plot_ridge(df, filename, categories):
     plt.savefig(Path(PATH, "out/all_results", f"{filename}.png"))
 
 def plot_correlation_matrix(df, filename, categories):
-    mean_df = df.groupby("name").mean()
+    mean_df = df[["name"] + categories].groupby("name").mean()
     corr = mean_df[categories].corr()
 
     for category in categories:
@@ -82,7 +82,7 @@ def plot_correlation_matrix(df, filename, categories):
             avg_corr = (category_corr.sum().sum() - category_corr.shape[0]) / (category_corr.size - category_corr.shape[0])
             corr.loc[category, category] = avg_corr
 
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(14, 10))
     sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', square=True, linewidths=.5, vmin=-1, vmax=1)
 
     plt.tight_layout()

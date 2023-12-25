@@ -11,12 +11,19 @@ from utils import (
 from data.data import Data
 
 data, data_lookback, loss_func = get_data("data")
-csv_name = "all_data"
-repeats = 2
+csv_name = "all_data_lstm"
+repeats = 10
 
-model_names = ["lstm_xs", "open_lstm_m", "dnn_xs", "dnn_m", "cnn_xs", "cnn_m"]
-predictor_names = ["last_value", "regression", "arima", "knn"]
-characteristics = {"sample_entropy": {"m": 10, "tau": 0}, "mad": {}, "num_edges": {}, "compression": {"sax_word_size": 20, "sax_alphabet_size": 10, "div": 64}, "perm_entropy": {"max_n": 7}}
+# model_names = ["lstm_xs", "open_lstm_m", "dnn_xs", "dnn_m", "cnn_xs", "cnn_m"]
+# model_names = ["lstm_xs", "lstm", "dnn_xs", "dnn", "cnn_xs", "cnn"]
+# predictor_names = ["last_value", "regression", "arima", "knn"]
+# characteristics = {"sample_entropy": {"m": 10, "tau": 0}, "mad": {}, "num_edges": {}, "compression": {"sax_word_size": 20, "sax_alphabet_size": 10, "div": 64}, 
+#                  "perm_entropy": {"max_n": 7}, "noise": {"model": "additive"}, "mean_trend": {"model": "additive"}, "trend_complexity": {"model": "additive"},
+#                   "period": {}, "period_complexity": {"model": "additive"}, "spectral_entropy_fft": {}, "spectral_entropy_psd": {}}
+
+model_names = ["classic_lstm","peephole_lstm","custom_lstm"]
+predictor_names = []
+characteristics = {}
 
 model_params = {}
 for model in model_names:
