@@ -1,0 +1,14 @@
+batch_size: 128
+device: cpu
+epochs: 500
+hidden_dim: 256
+input_dim: 1
+lookback: 10
+loss: L1
+lr: 0.001
+model: openlstm
+n_layers: 1
+optimizer: Adam
+patience: 50
+output_dim: 1
+init_method: 'kaiming' # normal, kaiming, xavier, uniform
