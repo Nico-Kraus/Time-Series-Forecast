@@ -16,14 +16,14 @@ loss_func = "L1"
 data_params = {
     "size": 1000,
     "seed": 0,
-    "config": {"multi_sinusoidal": {"num_sin": 1}},
+    "config": {"sinusoidal": {"period": 100}, "noise": {"std_dev": 0.01}},
 }
 
 max_difficulty = 100
-increasing_type = "multi_sinusoidal"
-increasing_param = "num_sin"
+increasing_type = "noise"
+increasing_param = "std_dev"
 step = 1
-factor = 1
+factor = 0.01
 repeats = 10
 
 model_names = ["lstm_xs", "lstm", "dnn_xs", "dnn", "cnn_xs", "cnn"]

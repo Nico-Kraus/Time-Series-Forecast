@@ -64,7 +64,7 @@ def plot_ridge(df, filename, categories):
     g.set_titles("")
     g.set(yticks=[])
     g.despine(bottom=True, left=True)
-    plt.xlim(-0.1,0.4)
+    plt.xlim(-0.01,0.05)
 
     create_dir(Path(PATH, "out/all_results"))
     plt.savefig(Path(PATH, "out/all_results", f"{filename}.png"))
