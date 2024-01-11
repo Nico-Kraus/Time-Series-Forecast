@@ -41,16 +41,44 @@ def plot_ridge(df, filename, categories):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=UserWarning)
 
+        tab10_palette = sns.color_palette("tab10")
+        mod_tab10_palette = [color for i, color in enumerate(tab10_palette) if i != 3]
+
         sns.set(style="white", rc={"axes.facecolor": (0, 0, 0, 0)})
 
-        g = sns.FacetGrid(melted_df, row="Category", hue="Category", aspect=15, height=1.5, palette="viridis")
+        # g = sns.FacetGrid(melted_df, row="Category", hue="Category", aspect=15, height=1.5, palette="viridis")
+        g = sns.FacetGrid(melted_df, row="Category", hue="Category", aspect=15, height=1.5, palette=tab10_palette)
 
-        g.map(sns.kdeplot, "Value", bw_adjust=0.5, clip_on=False, fill=True, alpha=1, linewidth=1.5)
-        g.map(sns.kdeplot, "Value", clip_on=False, color="w", lw=2, bw_adjust=0.5)
+        g.map(sns.kdeplot, "Value", bw_adjust=0.4, clip_on=False, fill=True, alpha=1, linewidth=1.5)
+        g.map(sns.kdeplot, "Value", clip_on=False, color="w", lw=2, bw_adjust=0.4)
         g.map(plt.axhline, y=0, lw=2, clip_on=False)
 
         def plot_mean(data, **kwargs):
-            plt.axvline(data.mean(), ymin=0, ymax=0.6, color="r", linestyle="--")
+            mean = data.mean()
+            std_dev = data.std()
+            median = data.median()
+
+            mean_color = tuple(component * 0.2 for component in tab10_palette[7])
+            std_dev_color = tab10_palette[7]
+            median_color = tuple((component + (1-component) * 0.8) for component in tab10_palette[7])
+            
+            # Mean line
+            plt.axvline(mean, ymin=0, ymax=0.5, color=mean_color, linestyle="-", lw=2)
+            plt.text(mean + 0.005, 0.61, 'Mean', color=mean_color, ha='center')
+
+            # Standard deviation lines
+            plt.axvline(mean + std_dev, ymin=0, ymax=0.3, color=std_dev_color, linestyle="--", lw=2)
+            #plt.text(mean + std_dev, 0.61, '+1 Std Dev', color=std_dev_color, ha='center')
+            plt.axvline(mean - std_dev, ymin=0, ymax=0.3, color=std_dev_color, linestyle="--", lw=2)
+            #plt.text(mean - std_dev, 0.61, '-1 Std Dev', color=std_dev_color, ha='center')
+
+            # Median line
+            plt.axvline(median, ymin=0, ymax=0.5, color=median_color, linestyle=":", lw=2)
+            plt.text(median + 0.006, 4, 'Median', color=median_color, ha='center')
+
+            # Shading the area within one standard deviation
+            plt.axvspan(mean - std_dev, mean + std_dev,  ymin=0, ymax=0.3, color="blue", alpha=0.15)
+
 
         g.map(plot_mean, "Value")
 
@@ -60,17 +88,23 @@ def plot_ridge(df, filename, categories):
 
         g.map(label, "Value")
 
-    g.fig.subplots_adjust(hspace=-0.4)
+    g.fig.subplots_adjust(hspace=-0.5)
+    g.fig.suptitle("Performace comparison (L1 loss) of all LSTM variations", fontsize=20)
+    for ax in g.axes.flat:
+        ax.set_ylabel('')
     g.set_titles("")
     g.set(yticks=[])
     g.despine(bottom=True, left=True)
-    plt.xlim(-0.01,0.05)
+    plt.xlim(-0.07,0.18)
 
     create_dir(Path(PATH, "out/all_results"))
     plt.savefig(Path(PATH, "out/all_results", f"{filename}.png"))
 
 def plot_correlation_matrix(df, filename, categories):
     mean_df = df[["name"] + categories].groupby("name").mean()
+    # mean_df = mean_df.rename(columns={"spectral_entropy_psd": "spectral_entropy"})
+    # print(mean_df)
+    # new_categories = list(mean_df.columns)
     corr = mean_df[categories].corr()
 
     for category in categories:
@@ -82,8 +116,18 @@ def plot_correlation_matrix(df, filename, categories):
             avg_corr = (category_corr.sum().sum() - category_corr.shape[0]) / (category_corr.size - category_corr.shape[0])
             corr.loc[category, category] = avg_corr
 
+    corr = corr.rename(columns={"spectral_entropy_psd": "spectral_entropy"})
+    corr = corr.rename(index={"spectral_entropy_psd": "spectral_entropy"})
+    corr = corr.rename(columns={"spectral_entropy_fft": "fourier_entropy"})
+    corr = corr.rename(index={"spectral_entropy_fft": "fourier_entropy"})
+    print(corr)
+
     plt.figure(figsize=(14, 10))
-    sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', square=True, linewidths=.5, vmin=-1, vmax=1)
+    spectral_cmap = sns.color_palette("Spectral", as_cmap=True)
+    # Reverse the colormap
+    reversed_spectral_cmap = spectral_cmap.reversed()
+    sns.heatmap(corr, annot=True, annot_kws={"size": 11}, fmt=".2f", cmap='coolwarm', square=True, linewidths=.5, vmin=-1, vmax=1)
+    # sns.heatmap(corr, annot=True, fmt=".2f", cmap=reversed_spectral_cmap, square=True, linewidths=.5, vmin=-1, vmax=1)
 
     plt.tight_layout()
 
@@ -272,11 +316,14 @@ def double_plot_linear_regressions(results, name, categories, path="results"):
         sns.set_style("darkgrid")
         warnings.simplefilter("ignore")
         sns.set_theme()
+        tab10_palette = sns.color_palette("tab10")
+        
         num_cat_lists = len(categories)
         rows = int(np.ceil(num_cat_lists / 2))
         fig, axs = plt.subplots(rows, 2, figsize=(16, 8))
 
         i = 0
+        j = 0
         for categories_n in categories:
             for category in categories_n:
                 if category in results.columns:
@@ -288,15 +335,20 @@ def double_plot_linear_regressions(results, name, categories, path="results"):
                         df.index.name = 'difficulty'
                         df = df.reset_index()
                     df = df.rename(columns={'difficulty': 'x'})
+                    color = tab10_palette[j % len(tab10_palette)]
+                    j = j + 1
+                    df["x"] = df["x"] / 100
+                    print(df)
                     sns.regplot(data=df, x="x", y=category, ax=axs[i//2][i%2], label=category, order=1,
-                                line_kws={"linewidth":1}, scatter_kws={"s":3})
+                                line_kws={"linewidth":1}, scatter_kws={"s":3}, color=color)
                 else:
                     warnings.warn(f"Column '{category}' does not exist in DataFrame.")
-            i=i+1;
+            i=i+1
+            j = 0
 
         for axs_ in axs:
             for ax in axs_:
-                ax.set_xlabel("Changing parameter")
+                ax.set_xlabel("Standard deviation of Noise")
                 ax.set_ylabel("Metric")
                 ax.legend()
         create_dir(Path(PATH, f"out/{path}"))
