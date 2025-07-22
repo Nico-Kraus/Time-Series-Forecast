@@ -88,18 +88,20 @@ for i, category in enumerate(categories):
 
 
     plt.xlabel('Models')
-    plt.ylabel('Performance' if i == 0 else "")
+    plt.ylabel('L1 loss' if i == 0 else "")
     plt.title(category)
 
 # Adjust subplots
 plt.subplots_adjust(wspace=0.3)
 
 # Adding overall title
-plt.suptitle('Performance (L1 loss) of Models Across Different Categories (Sorted by Performance)')
+# plt.suptitle('Performance (L1 loss) of Models Across Different Categories (Sorted by Performance)')
 
 # Creating a unified legend
 handles = [plt.Rectangle((0,0),1,1, color=model_colors[model]) for model in model_colors]
-plt.legend(handles, model_colors.keys(), title='Models', bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=12)
+#plt.legend(handles, model_colors.keys(), title='Models', bbox_to_anchor=(0.5, -0.05), loc='upper center', fontsize=12)
+
+plt.legend(handles, model_colors.keys(), title='Models', bbox_to_anchor=(0, 1), loc='upper left', fontsize=12)
 
 # Show the plot
 plt.show()

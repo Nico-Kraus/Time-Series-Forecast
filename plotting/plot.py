@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib import rcParams
+rcParams['font.family'] = 'open-sans'
 
 from plotting import PATH
 from pathlib import Path
@@ -28,10 +30,10 @@ def plot_box(df, filename, categories):
     plt.savefig(Path(PATH, "out/all_results", f"{filename}.png"))
 
 def plot_ridge(df, filename, categories):
-    melted_df = df.melt(value_vars=categories, var_name='Category', value_name="Value")
+    melted_df = df.melt(value_vars=categories, var_name='Category', value_name="L1 loss")
 
     # Calculate mean values and sort categories
-    category_means = melted_df.groupby('Category')["Value"].mean().sort_values()
+    category_means = melted_df.groupby('Category')["L1 loss"].mean().sort_values()
     sorted_categories = category_means.index.tolist()
 
     # Filter melted_df based on sorted categories
@@ -40,7 +42,8 @@ def plot_ridge(df, filename, categories):
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=UserWarning)
-
+        
+        plt.figure(figsize=(4.9, 3.5))
         tab10_palette = sns.color_palette("tab10")
         mod_tab10_palette = [color for i, color in enumerate(tab10_palette) if i != 3]
 
@@ -49,8 +52,8 @@ def plot_ridge(df, filename, categories):
         # g = sns.FacetGrid(melted_df, row="Category", hue="Category", aspect=15, height=1.5, palette="viridis")
         g = sns.FacetGrid(melted_df, row="Category", hue="Category", aspect=15, height=1.5, palette=tab10_palette)
 
-        g.map(sns.kdeplot, "Value", bw_adjust=0.4, clip_on=False, fill=True, alpha=1, linewidth=1.5)
-        g.map(sns.kdeplot, "Value", clip_on=False, color="w", lw=2, bw_adjust=0.4)
+        g.map(sns.kdeplot, "L1 loss", bw_adjust=0.4, clip_on=False, fill=True, alpha=1, linewidth=1.5)
+        g.map(sns.kdeplot, "L1 loss", clip_on=False, color="w", lw=2, bw_adjust=0.4)
         g.map(plt.axhline, y=0, lw=2, clip_on=False)
 
         def plot_mean(data, **kwargs):
@@ -80,22 +83,22 @@ def plot_ridge(df, filename, categories):
             plt.axvspan(mean - std_dev, mean + std_dev,  ymin=0, ymax=0.3, color="blue", alpha=0.15)
 
 
-        g.map(plot_mean, "Value")
+        g.map(plot_mean, "L1 loss")
 
         def label(x, color, label):
             ax = plt.gca()
             ax.text(0, 0.2, label, fontweight="bold", color=color, ha="left", va="center", transform=ax.transAxes)
 
-        g.map(label, "Value")
+        g.map(label, "L1 loss")
 
     g.fig.subplots_adjust(hspace=-0.5)
-    g.fig.suptitle("Performace comparison (L1 loss) of all LSTM variations", fontsize=20)
+    # g.fig.suptitle("Performace comparison (L1 loss) of all LSTM variations", fontsize=20)
     for ax in g.axes.flat:
         ax.set_ylabel('')
     g.set_titles("")
     g.set(yticks=[])
     g.despine(bottom=True, left=True)
-    plt.xlim(-0.07,0.18)
+    plt.xlim(-0.05,0.35)
 
     create_dir(Path(PATH, "out/all_results"))
     plt.savefig(Path(PATH, "out/all_results", f"{filename}.png"))
@@ -125,7 +128,7 @@ def plot_correlation_matrix(df, filename, categories):
     plt.figure(figsize=(14, 10))
     spectral_cmap = sns.color_palette("Spectral", as_cmap=True)
     # Reverse the colormap
-    reversed_spectral_cmap = spectral_cmap.reversed()
+    # reversed_spectral_cmap = spectral_cmap.reversed()
     sns.heatmap(corr, annot=True, annot_kws={"size": 11}, fmt=".2f", cmap='coolwarm', square=True, linewidths=.5, vmin=-1, vmax=1)
     # sns.heatmap(corr, annot=True, fmt=".2f", cmap=reversed_spectral_cmap, square=True, linewidths=.5, vmin=-1, vmax=1)
 
@@ -202,12 +205,15 @@ def plot_all_ts(data):
 
 
 def plot_time_series(train, val, test, name):
+    
     sns.set_style("darkgrid")
-    sns.lineplot(x=train.index, y=train["values"], label="train", color=(0, 0, 0.8, 0.8))
-    sns.lineplot(x=val.index, y=val["values"], label="val", color=(0, 0.8, 0, 0.8))
-    sns.lineplot(x=test.index, y=test["values"], label="test", color=(0.8, 0, 0, 0.8))
+    sns.lineplot(x=train.index, y=train["values"], label="train", color=(0, 0, 0.8, 0.8), linewidth=1)
+    sns.lineplot(x=val.index, y=val["values"], label="val", color=(0, 0.8, 0, 0.8), linewidth=1)
+    sns.lineplot(x=test.index, y=test["values"], label="test", color=(0.8, 0, 0, 0.8), linewidth=1)
+    plt.xlabel("Zeitschritt")
+    plt.ylabel("Wert")
     create_dir(Path(PATH, "out/examples"))
-    plt.savefig(Path(PATH, "out/examples", f"{name}.png"))
+    plt.savefig(Path(PATH, "out/examples", f"{name}.png"), dpi=600)
 
 
 def plot_pred(train_df, val_df, val_pred, test_df, test_pred, lookback, name):

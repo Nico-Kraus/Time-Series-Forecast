@@ -123,6 +123,34 @@ def period_complexity(data_numpy, model='additive'):
     complexity = np.std(seasonal)
     return complexity
 
+def plot_fft(time_series):
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    # Compute the FFT
+    fft_results = fft(time_series)
+    # Compute the magnitude of the FFT results
+    magnitude = np.abs(fft_results).flatten()
+    # Generate frequencies array
+    N = len(time_series)
+    freqs = np.arange(N)
+    print(freqs)
+    print(magnitude)
+    
+    # Create a DataFrame for plotting
+    import pandas as pd
+    df = pd.DataFrame({'Frequency': freqs, 'Magnitude': magnitude})
+    
+    # Considering only the first half of the FFT result because it mirrors the second half
+    half_n = N // 2
+    df = df[:half_n]
+    
+    # Plot using Seaborn
+    sns.lineplot(x='Frequency', y='Magnitude', data=df)
+    plt.xlabel('Frequency (cycles per sample)')
+    plt.ylabel('Magnitude')
+    plt.title('FFT Power Spectrum')
+    plt.show()
+
 
 def spectral_entropy_fft(time_series):
     # Apply Fourier Transform

@@ -2,14 +2,14 @@ from plotting.plot import plot_model_comparisons, plot_correlation_matrix, plot_
 from utils import get_data
 import pandas as pd
 
-# csv_name = "all_data_1"
+csv_name = "all_data_1"
 # csv_name = "all_data_lstm"
-csv_name = "category_repeating_500"
+# csv_name = "category_repeating_500"
 # csv_name = "category_repeating_noise_100"
 # csv_name = "category_piecewise_linear_100"
 # csv_name = "category_stock_fetch_stock_data_1"
 # csv_name = "category_multi_sinusoidal_100"
-csv_name = "category_sinusoidal_noise_100"
+# csv_name = "category_sinusoidal_noise_100"
 
 # data, data_lookback, loss_func = get_data("data")
 # plot_all_ts(data)
